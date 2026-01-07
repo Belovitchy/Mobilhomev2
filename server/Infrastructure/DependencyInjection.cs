@@ -1,26 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Application.Interfaces;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Persistence;
-
-namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        IConfiguration config)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        var connectionString = config.GetConnectionString("Default");
-
-        services.AddDbContext<MobilhomeDbContext>(options =>
-            options.UseMySql(connectionString,
-                ServerVersion.AutoDetect(connectionString)));
-
-        // services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IOwnerRepository, OwnerRepository>();
 
         return services;
-
     }
 }
-

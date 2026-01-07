@@ -8,7 +8,7 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<MobilhomeDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domain.Entities;
+namespace Infrastructure.Persistence.Models;
+
 
 public partial class Link
 {

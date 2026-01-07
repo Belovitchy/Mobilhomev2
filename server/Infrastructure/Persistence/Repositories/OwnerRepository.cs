@@ -1,7 +1,8 @@
 using Application.Interfaces;
 using Domain.Entities;
-using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Persistence.Repositories;
 
 public class OwnerRepository : IOwnerRepository
 {
@@ -12,9 +13,17 @@ public class OwnerRepository : IOwnerRepository
         _db = db;
     }
 
-    public Task<Owner?> GetByIdAsync(int id)
+    public async Task<Owner?> GetByIdAsync(int id)
     {
-        return _db.Owners.FirstOrDefaultAsync(o => o.Id == id);
+        var entity = await _db.Owners.FirstOrDefaultAsync(o => o.Id == id);
+
+        if (entity == null) return null;
+
+        return new Owner
+        {
+            Id = (int)entity.Id,
+            Name = entity.Name,
+            Email = entity.Email
+        };
     }
 }
-
