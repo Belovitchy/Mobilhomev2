@@ -1,0 +1,23 @@
+# Build .NET
+bin/
+obj/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Variables d'environnement et secrets
+.env
+.env.local
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Fichiers système
+.DS_Store
+Thumbs.db
