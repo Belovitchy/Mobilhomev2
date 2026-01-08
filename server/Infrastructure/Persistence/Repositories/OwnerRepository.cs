@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ public class OwnerRepository : IOwnerRepository
         _db = db;
     }
 
-    public async Task<Owner?> GetByIdAsync(int id)
+    public async Task<Owner?> GetByIdAsync(uint id)
     {
         var entity = await _db.Owners.FirstOrDefaultAsync(o => o.Id == id);
 
@@ -21,9 +22,10 @@ public class OwnerRepository : IOwnerRepository
 
         return new Owner
         {
-            Id = (int)entity.Id,
+            Id = (uint)entity.Id,
             Name = entity.Name,
-            Email = entity.Email
+            Email = entity.Email,
+            IsAdmin = entity.IsAdmin
         };
     }
 }

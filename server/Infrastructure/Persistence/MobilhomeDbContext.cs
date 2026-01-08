@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.Persistence.Models;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 

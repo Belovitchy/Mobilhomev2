@@ -4,5 +4,5 @@ namespace Application.Interfaces;
 
 public interface IOwnerRepository
 {
-    Task<Owner?> GetByIdAsync(int id);
+    Task<Owner?> GetByIdAsync(uint id);
 }

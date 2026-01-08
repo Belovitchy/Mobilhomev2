@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Persistence.Models;
+namespace Domain.Entities;
+
 
 
 public partial class Invoice

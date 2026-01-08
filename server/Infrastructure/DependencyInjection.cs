@@ -16,6 +16,8 @@ public static class DependencyInjection
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
         services.AddScoped<IOwnerRepository, OwnerRepository>();
+        services.AddScoped<IMobilhomeRepository, MobilhomeRepository>();
+
 
         return services;
     }
