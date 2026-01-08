@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<MobilhomeDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddInfrastructure(
+    builder.Configuration.GetConnectionString("DefaultConnection")!
+);
 
-builder.Services.AddInfrastructure();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
+app.MapControllers();
 app.Run();
