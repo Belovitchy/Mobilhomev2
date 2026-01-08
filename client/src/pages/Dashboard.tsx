@@ -10,6 +10,8 @@ function Dashboard() {
   const [popModifMail, setPopModifMail] = useState(false);
   const [popModifPassword, setPopModifPassword] = useState(false);
 
+  //verifier la presence d'un token valide
+
   function handleModifMail() {
     setPopModifMail(true);
   }

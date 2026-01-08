@@ -24,19 +24,21 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token && isConnected) {
-      setIsConnected(false);
-    }
-  }, [isConnected, location.pathname]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
     const checkToken = () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsConnected(false);
+        setOwner(null);
+        if (location.pathname !== "/") {
+          navigate("/");
+        }
+        return;
+      }
+
       fetch(`${import.meta.env.VITE_API_URL}/api/owner`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token") || "",
+          Authorization: token,
         },
       })
         .then((response) => response.json())
@@ -53,11 +55,10 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
         });
     };
     checkToken();
-    console.log(owner);
     const intervalId = setInterval(checkToken, 30 * 60 * 1000); // toutes les 30 minutes
 
     return () => clearInterval(intervalId); // Nettoyage si le composant est démonté
-  }, [location.pathname, isConnected, navigate]);
+  }, [location.pathname, navigate]);
 
   return (
     <OwnerContext.Provider
