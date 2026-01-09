@@ -35,6 +35,7 @@ logs/
 # Using **/ allows git to find them in any subdirectory.
 **/bin/
 **/obj/
+appsettings.json
 
 #================================#
 # Node / React (in /client)

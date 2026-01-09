@@ -18,16 +18,19 @@ function Accueil() {
     const email = emailInput.value;
     const password = passwordInput.value;
     //fetch to owner route
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/owner`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      }
+    );
 
     if (response.ok) {
       const data = await response.json();
