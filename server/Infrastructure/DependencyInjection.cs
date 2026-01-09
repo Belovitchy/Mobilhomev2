@@ -17,7 +17,7 @@ public static class DependencyInjection
 
         services.AddScoped<IOwnerRepository, OwnerRepository>();
         services.AddScoped<IMobilhomeRepository, MobilhomeRepository>();
-
+        services.AddScoped<IManagerRepository, ManagerRepository>();
 
         return services;
     }

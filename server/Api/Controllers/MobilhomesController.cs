@@ -2,7 +2,7 @@ using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("owners/{ownerId}/mobilhomes")]
+[Route("api/owners/{ownerId}/mobilhomes")]
 public class MobilhomesController : ControllerBase
 {
     private readonly GetMobilhomesByOwnerHandler _handler;
