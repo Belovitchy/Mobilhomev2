@@ -12,7 +12,7 @@ function Mobilhome() {
 
   useEffect(() => {
     if (!owner) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/owner/mobilhome/${owner.id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/owners/${owner.id}/mobilhomes`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token") || "",
