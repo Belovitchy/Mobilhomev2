@@ -21,6 +21,15 @@ public class GetMobilhomesByOwnerHandler
         {
             Id = m.Id,
             Name = m.Name,
+            Manager = new ManagerDto
+            {
+                Id = m.Manager.Id,
+                Name = m.Manager.Name,
+                Firstname = m.Manager.Firstname,
+                Email = m.Manager.Email,
+                Telephone = m.Manager.Telephone
+            }
+
         }).ToList();
     }
 }

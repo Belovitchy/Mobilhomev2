@@ -1,19 +1,16 @@
 import { useOwner } from "../context/ownerContext";
 import { useEffect, useState } from "react";
-import type { TypeManager, TypeMobilhome } from "../types/TypeFiles";
+import type { TypeMobilhome } from "../types/TypeFiles";
 import { FaPlus } from "react-icons/fa6";
 import MobilhomeCard from "../components/MobilhomeCard";
 import PopAddMobilhome from "../components/PopAddMobilhome";
-import {
-  getMobilhomesByOwner,
-  getManagersByOwner,
-} from "../services/mobilhomeService";
+import { getMobilhomesByOwner } from "../services/mobilhomeService";
 
 function Mobilhome() {
   const { owner } = useOwner();
   const [ownerMobilhome, setOwnerMobilhome] = useState<TypeMobilhome[]>([]);
   const [popAddMobilhome, setPopAddMobilhome] = useState(false);
-  const [managerMobilhome, setManagerMobilhome] = useState<TypeManager[]>([]);
+  [];
 
   useEffect(() => {
     if (!owner) return;
@@ -22,13 +19,8 @@ function Mobilhome() {
       console.log("mes mobilhome:", data);
       setOwnerMobilhome(data);
     };
-    const axiosManagersByOwner = async () => {
-      const data = await getManagersByOwner(owner.id);
-      console.log("mes managers:", data);
-      setManagerMobilhome(data);
-    };
+
     axiosMobilhomeByOwner();
-    axiosManagersByOwner();
   }, [owner]);
 
   return (
@@ -50,7 +42,7 @@ function Mobilhome() {
           />
         </div>
       </h1>
-      <section className="flex flex-wrap gap-4">
+      <section className="flex flex-wrap gap-4 justify-center">
         {ownerMobilhome.map((mobilhome) => (
           <div key={mobilhome.id}>
             <MobilhomeCard mobilhome={mobilhome} />
