@@ -17,6 +17,7 @@ public class MobilhomeRepository : IMobilhomeRepository
     public async Task<List<Mobilhome>> GetByOwnerIdAsync(uint ownerId)
     {
         return await _db.Mobilhomes
+            .Include(m => m.Manager)
             .Where(m => m.OwnerId == ownerId)
             .ToListAsync();
     }

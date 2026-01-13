@@ -1,5 +1,6 @@
 using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/owners/{ownerId}/mobilhomes")]
@@ -12,6 +13,7 @@ public class MobilhomesController : ControllerBase
         _handler = handler;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetByOwner(uint ownerId)
     {

@@ -18,6 +18,7 @@ DTO
   ↓
 CLIENT
 
+//////////////////////////////////////////////
 
 🧠 Règle d’or (note-la quelque part)
 
@@ -38,3 +39,22 @@ SMTP
 HTTP externe
 
 👉 Infrastructure
+
+///////////////////////////////////////////////
+checkToken bearer
+React
+  ↓ (Authorization: Bearer TOKEN)
+API
+  ↓ Middleware JWT
+  → token valide ?
+      ❌ non → 401
+      ✅ oui → User.Claims rempli
+Controller
+  ↓
+Extraction ownerId depuis le token
+  ↓
+Chargement Owner depuis la DB
+  ↓
+Mapping → DTO
+  ↓
+200 OK

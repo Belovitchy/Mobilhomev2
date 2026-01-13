@@ -1,28 +1,34 @@
 import { useOwner } from "../context/ownerContext";
 import { useEffect, useState } from "react";
-import type { TypeMobilhome } from "../types/TypeFiles";
+import type { TypeManager, TypeMobilhome } from "../types/TypeFiles";
 import { FaPlus } from "react-icons/fa6";
 import MobilhomeCard from "../components/MobilhomeCard";
 import PopAddMobilhome from "../components/PopAddMobilhome";
+import {
+  getMobilhomesByOwner,
+  getManagersByOwner,
+} from "../services/mobilhomeService";
 
 function Mobilhome() {
   const { owner } = useOwner();
   const [ownerMobilhome, setOwnerMobilhome] = useState<TypeMobilhome[]>([]);
   const [popAddMobilhome, setPopAddMobilhome] = useState(false);
+  const [managerMobilhome, setManagerMobilhome] = useState<TypeManager[]>([]);
 
   useEffect(() => {
     if (!owner) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/owners/${owner.id}/mobilhomes`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token") || "",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("mes mobilhome:", data);
-        setOwnerMobilhome(data);
-      });
+    const axiosMobilhomeByOwner = async () => {
+      const data = await getMobilhomesByOwner(owner.id);
+      console.log("mes mobilhome:", data);
+      setOwnerMobilhome(data);
+    };
+    const axiosManagersByOwner = async () => {
+      const data = await getManagersByOwner(owner.id);
+      console.log("mes managers:", data);
+      setManagerMobilhome(data);
+    };
+    axiosMobilhomeByOwner();
+    axiosManagersByOwner();
   }, [owner]);
 
   return (

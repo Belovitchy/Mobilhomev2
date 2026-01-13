@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router";
 import { useOwner } from "../context/ownerContext";
+import { logout, login, saveToken } from "../services/authService";
 
 function Accueil() {
   const { setOwner, setIsConnected, isConnected } = useOwner();
@@ -17,35 +18,21 @@ function Accueil() {
     ) as HTMLInputElement;
     const email = emailInput.value;
     const password = passwordInput.value;
-    //fetch to owner route
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      }
-    );
 
-    if (response.ok) {
-      const data = await response.json();
+    try {
+      const data = await login(email, password);
       console.log(data.owner);
-      localStorage.setItem("token", data.token);
+      saveToken(data.token);
       setOwner(data.owner);
       setIsConnected(true);
       navigate("/dashboard");
-    } else {
+    } catch {
       alert("Email ou mot de passe incorrect");
     }
   };
 
   function handleLogout() {
-    localStorage.removeItem("token");
+    logout();
     setOwner(null);
     setIsConnected(false);
     navigate("/");

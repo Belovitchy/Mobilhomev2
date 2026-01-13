@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Application.UseCases.Managers.GetManagersByOwner;
+using Microsoft.AspNetCore.Authorization;
 
 
 [ApiController]
@@ -13,6 +14,7 @@ public class ManagersController : ControllerBase
         _handler = handler;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetByOwner(uint ownerId)
     {

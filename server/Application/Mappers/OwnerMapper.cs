@@ -12,6 +12,7 @@ public static class OwnerMapper
             Id = owner.Id,
             Name = owner.Name,
             Email = owner.Email,
+            IsAdmin = owner.IsAdmin
         };
     }
 }
