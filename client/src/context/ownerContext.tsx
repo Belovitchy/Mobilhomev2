@@ -7,6 +7,7 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router";
 import type { TypeOwner } from "../types/TypeFiles";
+import { getMe, logout } from "../services/authService";
 
 type OwnerContextType = {
   isConnected: boolean;
@@ -22,42 +23,26 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token && isConnected) {
-      setIsConnected(false);
-    }
-  }, [isConnected, location.pathname]);
+    if (location.pathname === "/") return;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    const checkToken = () => {
-      fetch(`${import.meta.env.VITE_API_URL}/api/owner`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token") || "",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message !== "noToken") {
-            setOwner(data.owner);
-            setIsConnected(true);
-          } else {
-            setOwner(null);
-            setIsConnected(false);
-            localStorage.removeItem("token");
-            navigate("/");
-          }
-        });
+    const checkToken = async () => {
+      try {
+        const me = await getMe();
+        setOwner(me);
+        setIsConnected(true);
+      } catch {
+        logout();
+        setOwner(null);
+        setIsConnected(false);
+        if (location.pathname !== "/") navigate("/");
+      }
     };
-    checkToken();
-    console.log(owner);
-    const intervalId = setInterval(checkToken, 30 * 60 * 1000); // toutes les 30 minutes
 
-    return () => clearInterval(intervalId); // Nettoyage si le composant est démonté
-  }, [location.pathname, isConnected, navigate]);
+    checkToken();
+    const id = setInterval(checkToken, 30 * 60 * 1000);
+    return () => clearInterval(id);
+  }, [location.pathname, navigate]);
 
   return (
     <OwnerContext.Provider

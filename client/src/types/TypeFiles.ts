@@ -22,4 +22,5 @@ export interface TypeManager {
   firstname: string;
   email: string;
   telephone: string;
+  owner_id: number;
 }

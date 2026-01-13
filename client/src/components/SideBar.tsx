@@ -8,14 +8,15 @@ function SideBar() {
   const { owner } = useOwner();
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
+  console.log(owner);
   return (
     <>
       {owner !== null ? (
         <>
           <div className="sm:flex hidden">
-            <section className="bg-[var(--color-cards)] w-[200px] min-h-full flex flex-col justify-between border-r-2 border-[var(--color-primary)]">
+            <section className="bg-(--color-cards) w-50 min-h-full flex flex-col justify-between border-r-2 border-(--color-primary)">
               <div className="flex flex-col gap-4">
-                <article className="h-24 bg-[var(--color-primary)] text-[var(--color-cards)]  flex flex-col items-center">
+                <article className="h-24 bg-(--color-primary) text-(--color-cards)  flex flex-col items-center">
                   <h2 className="font-extrabold">Hello! {owner?.name}</h2>
                 </article>
                 <article className="  p-4 ">
@@ -23,8 +24,8 @@ function SideBar() {
                     <Link
                       className={`p-4 rounded-lg transition-colors duration-300 ${
                         isActive("/dashboard")
-                          ? "bg-[var(--color-primary)]/90 text-[var(--color-cards)]"
-                          : "hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)]"
+                          ? "bg-(--color-primary)/90 text-(--color-cards)"
+                          : "hover:bg-(--color-primary) hover:text-(--color-cards)"
                       }`}
                       to="/dashboard"
                     >
@@ -33,8 +34,8 @@ function SideBar() {
                     <Link
                       className={`p-4 rounded-lg transition-colors duration-300 ${
                         isActive("/dashboard/mobilhomes")
-                          ? "bg-[var(--color-primary)]/90 text-[var(--color-cards)]"
-                          : "hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)]"
+                          ? "bg-(--color-primary)/90 text-(--color-cards)"
+                          : "hover:bg-(--color-primary) hover:text-(--color-cards)"
                       }`}
                       to="/dashboard/mobilhomes"
                     >
@@ -43,8 +44,8 @@ function SideBar() {
                     <Link
                       className={`p-4 rounded-lg transition-colors duration-300 ${
                         isActive("/dashboard/invoices")
-                          ? "bg-[var(--color-primary)]/90 text-[var(--color-cards)]"
-                          : "hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)]"
+                          ? "bg-(--color-primary)/90 text-(--color-cards)"
+                          : "hover:bg-(--color-primary) hover:text-(--color-cards)"
                       }`}
                       to="/dashboard/invoices"
                     >
@@ -54,8 +55,8 @@ function SideBar() {
                     <Link
                       className={`p-4 rounded-lg transition-colors duration-300 ${
                         isActive("/dashboard/managers")
-                          ? "bg-[var(--color-primary)]/90 text-[var(--color-cards)]"
-                          : "hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)]"
+                          ? "bg-(--color-primary)/90 text-(--color-cards)"
+                          : "hover:bg-(--color-primary) hover:text-(--color-cards)"
                       }`}
                       to="/dashboard/managers"
                     >
@@ -65,8 +66,8 @@ function SideBar() {
                       <Link
                         className={`p-4 rounded-lg transition-colors duration-300 ${
                           isActive("/dashboard/admin")
-                            ? "bg-[var(--color-primary)]/90 text-[var(--color-cards)]"
-                            : "hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)]"
+                            ? "bg-(--color-primary)/90 text-(--color-cards)"
+                            : "hover:bg-(--color-primary) hover:text-(--color-cards)"
                         }`}
                         to="dashboard/admin"
                       >
@@ -78,7 +79,7 @@ function SideBar() {
               </div>
 
               <Link
-                className="m-4 p-4 rounded-lg transition-colors duration-300 hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)] "
+                className="m-4 p-4 rounded-lg transition-colors duration-300 hover:bg-(--color-primary) hover:text-(--color-cards) "
                 to="/"
               >
                 Déconnection
@@ -88,13 +89,13 @@ function SideBar() {
           {!isOpen ? (
             <button
               type="button"
-              className="absolute sm:hidden w-14 h-14 border-2 border-[var(--color-primary)] rounded-full bg-[var(--color-cards)] items-center justify-center flex"
+              className="absolute sm:hidden w-14 h-14 border-2 border-(--color-primary) rounded-full bg-(--color-cards) items-center justify-center flex"
               onClick={() => setIsOpen(true)}
             >
               <GiHamburgerMenu className="  w-10 h-10  " />
             </button>
           ) : (
-            <section className="absolute top-0 left-0  bg-[var(--color-cards)] z-50 flex flex-col gap-4 border-2 border-[var(--color-primary)] rounded-lg p-4">
+            <section className="absolute top-0 left-0  bg-(--color-cards) z-50 flex flex-col gap-4 border-2 border-(--color-primary) rounded-lg p-4">
               <Link onClick={() => setIsOpen(false)} to="/dashboard">
                 Home
               </Link>
