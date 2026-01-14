@@ -23,14 +23,18 @@ public class MobilhomeRepository : IMobilhomeRepository
         return models.Select(MobilhomeMapper.ToEntity).ToList();
     }
 
-    public async Task AddAsync(Mobilhome mobilhome)
+    public async Task<Mobilhome> AddAsync(Mobilhome mobilhome)
     {
         var model = MobilhomeMapper.ToModel(mobilhome);
 
         _db.Mobilhomes.Add(model);
         await _db.SaveChangesAsync();
 
-        // Optionnel : récupérer l’ID généré par MySQL
-        mobilhome.Id = model.Id;
+        //reload avec manager
+        await _db.Entry(model)
+        .Reference(m => m.Manager)
+        .LoadAsync();
+
+        return MobilhomeMapper.ToEntity(model);
     }
 }

@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import type { TypeMobilhome } from "../types/TypeFiles";
+import type { TypeMobilhome } from "../../types/TypeFiles";
 
 function MobilhomeCard({ mobilhome }: { mobilhome: TypeMobilhome }) {
   return (

@@ -2,8 +2,8 @@ import { useOwner } from "../context/ownerContext";
 import { useEffect, useState } from "react";
 import type { TypeMobilhome } from "../types/TypeFiles";
 import { FaPlus } from "react-icons/fa6";
-import MobilhomeCard from "../components/MobilhomeCard";
-import PopAddMobilhome from "../components/PopAddMobilhome";
+import MobilhomeCard from "../components/mobilhomePage/MobilhomeCard";
+import PopAddMobilhome from "../components/mobilhomePage/PopAddMobilhome";
 import { getMobilhomesByOwner } from "../services/mobilhomeService";
 
 function Mobilhome() {
@@ -28,8 +28,9 @@ function Mobilhome() {
       {popAddMobilhome ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopAddMobilhome
-            id={owner?.id}
+            id={owner!.id}
             onClose={() => setPopAddMobilhome(false)}
+            setOwnerMobilhome={setOwnerMobilhome}
           />
         </div>
       ) : null}

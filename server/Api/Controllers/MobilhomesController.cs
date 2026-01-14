@@ -50,7 +50,12 @@ public class MobilhomesController : ControllerBase
         if (ownerId != ownerIdByToken)
             return Forbid();
 
-        await _addMobilhomeHandler.Handle(command, ownerIdByToken);
-        return Ok();
+        var createdMobilhome = await _addMobilhomeHandler.Handle(command, ownerIdByToken);
+
+        return CreatedAtAction(
+            nameof(GetByOwner),
+            new { ownerId },
+            createdMobilhome
+        );
     }
 }

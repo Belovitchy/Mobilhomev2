@@ -12,7 +12,7 @@ public class AddMobilhomeHandler
         _mobilhomeRepository = mobilhomeRepository;
     }
 
-    public async Task Handle(AddMobilhomeCommand command, uint ownerId)
+    public async Task<Mobilhome> Handle(AddMobilhomeCommand command, uint ownerId)
     {
         var mobilhome = new Mobilhome
         {
@@ -22,6 +22,6 @@ public class AddMobilhomeHandler
             IcalLink = command.IcalLink
         };
 
-        await _mobilhomeRepository.AddAsync(mobilhome);
+        return await _mobilhomeRepository.AddAsync(mobilhome);
     }
 }
