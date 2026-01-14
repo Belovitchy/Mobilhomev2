@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using Infrastructure.Persistence.Models;
+
+
 
 namespace Infrastructure.Persistence;
 
@@ -30,6 +32,10 @@ public partial class MobilhomeDbContext : DbContext
     public virtual DbSet<Reservation> Reservations { get; set; }
 
     public virtual DbSet<Vacationer> Vacationers { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;database=mobilhome;user=quid;password=novice", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.42-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -191,23 +197,37 @@ public partial class MobilhomeDbContext : DbContext
 
             entity.HasIndex(e => e.MobilhomeId, "mobilhome_id");
 
-            entity.HasIndex(e => e.OwnerId, "owner_id");
-
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Color)
+                .HasMaxLength(255)
+                .HasColumnName("color");
+            entity.Property(e => e.Comment)
+                .HasColumnType("text")
+                .HasColumnName("comment");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .HasColumnName("email");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.Funpass)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("funpass");
+            entity.Property(e => e.Immat)
+                .HasMaxLength(255)
+                .HasColumnName("immat");
             entity.Property(e => e.MobilhomeId).HasColumnName("mobilhome_id");
-            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.NumberPerson).HasColumnName("number_person");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .HasColumnName("phone");
+            entity.Property(e => e.SibluResa)
+                .HasMaxLength(20)
+                .HasColumnName("siblu_resa");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
 
             entity.HasOne(d => d.Mobilhome).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.MobilhomeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("reservation_ibfk_1");
-
-            entity.HasOne(d => d.Owner).WithMany(p => p.Reservations)
-                .HasForeignKey(d => d.OwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("reservation_ibfk_2");
 
             entity.HasMany(d => d.Vacationers).WithMany(p => p.Reservations)
                 .UsingEntity<Dictionary<string, object>>(

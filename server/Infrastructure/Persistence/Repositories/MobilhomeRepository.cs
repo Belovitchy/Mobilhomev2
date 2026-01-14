@@ -1,9 +1,8 @@
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence;
+using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
-
-namespace Infrastructure.Persistence.Repositories;
 
 public class MobilhomeRepository : IMobilhomeRepository
 {
@@ -16,9 +15,22 @@ public class MobilhomeRepository : IMobilhomeRepository
 
     public async Task<List<Mobilhome>> GetByOwnerIdAsync(uint ownerId)
     {
-        return await _db.Mobilhomes
+        var models = await _db.Mobilhomes
             .Include(m => m.Manager)
             .Where(m => m.OwnerId == ownerId)
             .ToListAsync();
+
+        return models.Select(MobilhomeMapper.ToEntity).ToList();
+    }
+
+    public async Task AddAsync(Mobilhome mobilhome)
+    {
+        var model = MobilhomeMapper.ToModel(mobilhome);
+
+        _db.Mobilhomes.Add(model);
+        await _db.SaveChangesAsync();
+
+        // Optionnel : récupérer l’ID généré par MySQL
+        mobilhome.Id = model.Id;
     }
 }
