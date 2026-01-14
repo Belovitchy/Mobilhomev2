@@ -12,12 +12,12 @@ public class AddMobilhomeHandler
         _mobilhomeRepository = mobilhomeRepository;
     }
 
-    public async Task Handle(AddMobilhomeCommand command)
+    public async Task Handle(AddMobilhomeCommand command, uint ownerId)
     {
         var mobilhome = new Mobilhome
         {
             Name = command.Name,
-            OwnerId = command.OwnerId,
+            OwnerId = ownerId,
             ManagerId = command.ManagerId,
             IcalLink = command.IcalLink
         };

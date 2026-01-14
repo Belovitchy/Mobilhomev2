@@ -8,5 +8,5 @@ public class Mobilhome
     public uint ManagerId { get; set; }
     public string? IcalLink { get; set; }
 
-    public Manager? Manager { get; set; }
+    public Manager Manager { get; set; } = null!;
 }

@@ -2,7 +2,8 @@ using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Application.UseCases.Mobilhomes.AddMobilhome;
-using Application.Interfaces;
+using System.Security.Claims;
+
 
 [ApiController]
 [Route("api/owners/{ownerId}/mobilhomes")]
@@ -24,6 +25,13 @@ public class MobilhomesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetByOwner(uint ownerId)
     {
+        var ownerIdByToken = uint.Parse(
+          User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+        );
+
+        if (ownerId != ownerIdByToken)
+            return Forbid();
+
         var result = await _handler.Handle(
             new GetMobilhomesByOwnerQuery(ownerId)
         );
@@ -33,9 +41,16 @@ public class MobilhomesController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> Add(AddMobilhomeCommand command)
+    public async Task<IActionResult> Add(uint ownerId, [FromBody] AddMobilhomeCommand command)
     {
-        await _addMobilhomeHandler.Handle(command);
+        var ownerIdByToken = uint.Parse(
+          User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+        );
+
+        if (ownerId != ownerIdByToken)
+            return Forbid();
+
+        await _addMobilhomeHandler.Handle(command, ownerIdByToken);
         return Ok();
     }
 }

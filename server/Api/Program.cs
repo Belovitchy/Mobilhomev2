@@ -10,6 +10,7 @@ using Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Application.UseCases.Mobilhomes.AddMobilhome;
 
 
 
@@ -64,6 +65,9 @@ builder.Services.AddScoped<GetMobilhomesByOwnerHandler>();
 builder.Services.AddScoped<GetManagersByOwnerHandler>();
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<SignInHandler>();
+builder.Services.AddScoped<AddMobilhomeHandler>();
+
+
 
 
 builder.Services.AddSwaggerGen(c =>
