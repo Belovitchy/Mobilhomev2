@@ -10,12 +10,8 @@ namespace Infrastructure.Persistence;
 
 public partial class MobilhomeDbContext : DbContext
 {
-    public MobilhomeDbContext()
-    {
-    }
-
     public MobilhomeDbContext(DbContextOptions<MobilhomeDbContext> options)
-        : base(options)
+      : base(options)
     {
     }
 
@@ -33,9 +29,7 @@ public partial class MobilhomeDbContext : DbContext
 
     public virtual DbSet<Vacationer> Vacationers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;database=mobilhome;user=quid;password=novice", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.42-mysql"));
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
