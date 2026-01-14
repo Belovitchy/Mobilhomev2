@@ -1,6 +1,5 @@
 using Application.Interfaces;
 using Application.DTOs;
-using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 
 namespace Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 
