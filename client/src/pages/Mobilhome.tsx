@@ -1,19 +1,15 @@
 import { useOwner } from "../context/ownerContext";
 import { useEffect, useState } from "react";
-import type { TypeManager, TypeMobilhome } from "../types/TypeFiles";
+import type { TypeMobilhome } from "../types/TypeFiles";
 import { FaPlus } from "react-icons/fa6";
-import MobilhomeCard from "../components/MobilhomeCard";
-import PopAddMobilhome from "../components/PopAddMobilhome";
-import {
-  getMobilhomesByOwner,
-  getManagersByOwner,
-} from "../services/mobilhomeService";
+import MobilhomeCard from "../components/mobilhomePage/MobilhomeCard";
+import PopAddMobilhome from "../components/mobilhomePage/PopAddMobilhome";
+import { getMobilhomesByOwner } from "../services/mobilhomeService";
 
 function Mobilhome() {
   const { owner } = useOwner();
   const [ownerMobilhome, setOwnerMobilhome] = useState<TypeMobilhome[]>([]);
   const [popAddMobilhome, setPopAddMobilhome] = useState(false);
-  const [managerMobilhome, setManagerMobilhome] = useState<TypeManager[]>([]);
 
   useEffect(() => {
     if (!owner) return;
@@ -22,22 +18,35 @@ function Mobilhome() {
       console.log("mes mobilhome:", data);
       setOwnerMobilhome(data);
     };
-    const axiosManagersByOwner = async () => {
-      const data = await getManagersByOwner(owner.id);
-      console.log("mes managers:", data);
-      setManagerMobilhome(data);
-    };
     axiosMobilhomeByOwner();
-    axiosManagersByOwner();
   }, [owner]);
+
+  const handleMobilhomeUpdate = (updateMobilhome: TypeMobilhome) => {
+    setOwnerMobilhome((prevMobilhome) =>
+      prevMobilhome.map((mobilhome) =>
+        mobilhome.id === updateMobilhome.id ? updateMobilhome : mobilhome
+      )
+    );
+  };
+
+  const handleMobilhomeDelete = (mobilhomeId: number) => {
+    setOwnerMobilhome((prevMobilhome) =>
+      prevMobilhome.filter((mobilhome) => mobilhome.id !== mobilhomeId)
+    );
+  };
+
+  if (!owner) {
+    return null;
+  }
 
   return (
     <>
       {popAddMobilhome ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopAddMobilhome
-            id={owner?.id}
+            id={owner!.id}
             onClose={() => setPopAddMobilhome(false)}
+            setOwnerMobilhome={setOwnerMobilhome}
           />
         </div>
       ) : null}
@@ -50,10 +59,16 @@ function Mobilhome() {
           />
         </div>
       </h1>
-      <section className="flex flex-wrap gap-4">
+      <section className="flex flex-wrap gap-4 justify-center">
         {ownerMobilhome.map((mobilhome) => (
           <div key={mobilhome.id}>
-            <MobilhomeCard mobilhome={mobilhome} />
+            <MobilhomeCard
+              onDelete={handleMobilhomeDelete}
+              onUpdated={handleMobilhomeUpdate}
+              mobilhome={mobilhome}
+              id={owner!.id}
+              ownerMobilhome={ownerMobilhome}
+            />
           </div>
         ))}
       </section>

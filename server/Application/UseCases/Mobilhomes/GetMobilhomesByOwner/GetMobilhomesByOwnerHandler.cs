@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Application.DTOs;
-using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
+using Application.Mappers;
 
 namespace Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 
@@ -17,10 +17,7 @@ public class GetMobilhomesByOwnerHandler
     {
         var mobilhomes = await _repository.GetByOwnerIdAsync(query.OwnerId);
 
-        return mobilhomes.Select(m => new MobilhomeDto
-        {
-            Id = m.Id,
-            Name = m.Name,
-        }).ToList();
+        return mobilhomes.Select(MobilhomeDtoMapper.ToDto).ToList();
+
     }
 }

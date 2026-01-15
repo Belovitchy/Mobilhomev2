@@ -1,31 +1,35 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router";
+import { useState, useEffect } from "react";
+import { useParams, Navigate } from "react-router-dom";
+import { getMobilhomeDetail } from "../services/mobilhomeService";
 
 function MobilhomeDetail() {
-  const location = useLocation();
+  const [year, setYear] = useState<number>(2026);
+
+  //recupérer id mobilhome de l'URL
+  const { id } = useParams<{ id: string }>();
+  if (!id) {
+    return <div>Mobilhome introuvable</div>;
+  }
+
+  const mobilhomeId = Number(id);
+  if (isNaN(mobilhomeId)) {
+    return <Navigate to="/notfound" />;
+  }
 
   useEffect(() => {
-    //recupérer id mobilhome de l'URL
-    const mobilhomeId = Number(location.pathname.split("/").pop());
     console.log("Mobilhome ID:", mobilhomeId);
-    fetch(
-      `${import.meta.env.VITE_API_URL}/api/mobilhome/booking/${mobilhomeId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token") || "",
-        },
-      },
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Booking data:", data);
-      });
-  }, [location]);
+    const axiosMobilhomeDetail = async () => {
+      const data = await getMobilhomeDetail(mobilhomeId);
+      console.log("detail mobilhome:", data);
+    };
+
+    axiosMobilhomeDetail();
+  }, [mobilhomeId]);
 
   return (
     <div>
       <h1>Mobilhome Detail Page</h1>
+      <input type="number" defaultValue={2026} />
       {/* Additional content can be added here */}
     </div>
   );

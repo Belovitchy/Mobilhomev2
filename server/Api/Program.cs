@@ -1,5 +1,5 @@
 using Infrastructure;
-using Infrastructure.Persistence;
+
 using Microsoft.EntityFrameworkCore;
 using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 using Application.UseCases.Managers.GetManagersByOwner;
@@ -10,7 +10,9 @@ using Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using Application.UseCases.Mobilhomes.AddMobilhome;
+using Application.UseCases.Mobilhomes.UpdateMobilhome;
+using Application.UseCases.Mobilhomes.DeleteMobilhome;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,6 +66,9 @@ builder.Services.AddScoped<GetMobilhomesByOwnerHandler>();
 builder.Services.AddScoped<GetManagersByOwnerHandler>();
 builder.Services.AddScoped<LoginHandler>();
 builder.Services.AddScoped<SignInHandler>();
+builder.Services.AddScoped<AddMobilhomeHandler>();
+builder.Services.AddScoped<UpdateMobilhomeHandler>();
+builder.Services.AddScoped<DeleteMobilhomeHandler>();
 
 
 builder.Services.AddSwaggerGen(c =>

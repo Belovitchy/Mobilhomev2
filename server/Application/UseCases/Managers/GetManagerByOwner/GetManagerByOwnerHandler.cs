@@ -22,6 +22,9 @@ public class GetManagersByOwnerHandler
         {
             Id = m.Id,
             Name = m.Name,
+            Firstname = m.Firstname,
+            Email = m.Email,
+            Telephone = m.Telephone
         }).ToList();
     }
 }

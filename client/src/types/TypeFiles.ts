@@ -8,16 +8,27 @@ export interface TypeOwner {
 
 export interface TypeMobilhome {
   id: number;
-  mobilhomeName: string;
-  managerName: string;
-  managerFirstname: string;
   name: string;
-  manager_id: number;
-  owner_id: number;
+  icalLink: string;
+  managerId:number  
+  manager:TypeManager  
+}
+
+export interface TypeNewMobilhome {
+  name: string;
+  icalLink: string | null;
+  managerId: number;
+}
+
+export interface TypeModifMobilhome{
+  id : number;
+  name: string;
+  icalLink: string | null;
+  managerId: number;
 }
 
 export interface TypeManager {
-  id: number;
+  id: number;  
   name: string;
   firstname: string;
   email: string;
