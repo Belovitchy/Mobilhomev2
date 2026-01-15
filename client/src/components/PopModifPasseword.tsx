@@ -6,7 +6,10 @@ import { useOwner } from "../context/ownerContext";
 function PopModifPasseword({
   id,
   onClose,
-}: { id: number; onClose: () => void }) {
+}: {
+  id: number;
+  onClose: () => void;
+}) {
   const { owner } = useOwner();
   const [showPassword, setShowPassword] = useState(false);
   async function postModifPasseword(e: React.FormEvent<HTMLFormElement>) {
@@ -32,7 +35,7 @@ function PopModifPasseword({
           password: password,
           email: email,
         }),
-      },
+      }
     );
     if (response.ok) {
       alert("Mot de passe modifié avec succès");
@@ -45,7 +48,7 @@ function PopModifPasseword({
   return (
     <form
       onSubmit={(e) => postModifPasseword(e)}
-      className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-[340px] bg-[var(--color-cards)]  mx-auto  border-2 border-[var(--color-primary)] rounded-2xl flex flex-col gap-4 p-4"
+      className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-85 bg-(--color-cards)  mx-auto  border-2 border-(--color-primary) rounded-2xl flex flex-col gap-4 p-4"
     >
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold m-auto flex items-center mb-4">
@@ -57,7 +60,7 @@ function PopModifPasseword({
         />
       </div>
       <input
-        className="bg-[var(--color-background)] w-[200px] p-2 rounded-lg mx-auto"
+        className="bg-(--color-background) w-50 p-2 rounded-lg mx-auto"
         type={showPassword ? "text" : "password"}
         id="password"
         name="password"
@@ -67,7 +70,7 @@ function PopModifPasseword({
       <div className="flex flex-row justify-between">
         <h3>Confirmer</h3>
         <button
-          className="hover:cursor-pointer flex items-center text-[var(--color-primary)]"
+          className="hover:cursor-pointer flex items-center text-(--color-primary)"
           type="button"
           onClick={() => setShowPassword(!showPassword)}
           tabIndex={-1}
@@ -77,7 +80,7 @@ function PopModifPasseword({
       </div>
 
       <input
-        className="bg-[var(--color-background)] w-[200px] p-2 rounded-lg mx-auto"
+        className="bg-(--color-background) w-50 p-2 rounded-lg mx-auto"
         type={showPassword ? "text" : "password"}
         id="confirmPassword"
         name="confirmPassword"
@@ -86,7 +89,7 @@ function PopModifPasseword({
 
       <button
         type="submit"
-        className="w-40 mx-auto bg-[var(--color-cards)] text-[var(--color-primary)] border-2 border-[var(--color-primary)] px-4 py-2 rounded-full hover:bg-[var(--color-primary)] hover:text-[var(--color-cards)] transition-colors duration-300 my-8 hover:cursor-pointer"
+        className="w-40 mx-auto bg-(--color-cards) text-(--color-primary) border-2 border-(--color-primary) px-4 py-2 rounded-full hover:bg-(--color-primary) hover:text-(--color-cards) transition-colors duration-300 my-8 hover:cursor-pointer"
       >
         Valider
       </button>

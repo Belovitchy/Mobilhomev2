@@ -13,6 +13,7 @@ public class MobilhomeRepository : IMobilhomeRepository
         _db = db;
     }
 
+    //tous les mobilhomes pour un proprio
     public async Task<List<Mobilhome>> GetByOwnerIdAsync(uint ownerId)
     {
         var models = await _db.Mobilhomes
@@ -23,6 +24,20 @@ public class MobilhomeRepository : IMobilhomeRepository
         return models.Select(MobilhomeMapper.ToEntity).ToList();
     }
 
+    //get mobilhome by id
+    public async Task<Mobilhome?> GetByIdAsync(uint mobilhomeId)
+    {
+        var model = await _db.Mobilhomes
+            .Include(m => m.Manager)
+            .FirstOrDefaultAsync(m => m.Id == mobilhomeId);
+
+        if (model == null) return null;
+
+        return MobilhomeMapper.ToEntity(model);
+    }
+
+
+    //ajout d'un nouveau mobilhome
     public async Task<Mobilhome> AddAsync(Mobilhome mobilhome)
     {
         var model = MobilhomeMapper.ToModel(mobilhome);
@@ -37,4 +52,27 @@ public class MobilhomeRepository : IMobilhomeRepository
 
         return MobilhomeMapper.ToEntity(model);
     }
+
+    public async Task UpdateAsync(Mobilhome mobilhome)
+    {
+        var model = await _db.Mobilhomes.FirstOrDefaultAsync(m => m.Id == mobilhome.Id);
+
+        if (model == null) return;
+
+        model.Name = mobilhome.Name;
+        model.ManagerId = mobilhome.ManagerId;
+        model.IcalLink = mobilhome.IcalLink;
+
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(uint mobilhomeId)
+    {
+        var model = await _db.Mobilhomes.FindAsync(mobilhomeId);
+
+        if (model == null) return;
+        _db.Mobilhomes.Remove(model);
+        await _db.SaveChangesAsync();
+    }
+
 }

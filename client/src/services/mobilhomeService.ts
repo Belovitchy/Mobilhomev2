@@ -25,13 +25,33 @@ export const getManagersByOwner = async (id: number) => {
 };
 
 export const addMobilhomeOwner = async (
-  id: number,
+  ownerId: number,
   data: TypeNewMobilhome
 ) => {
   const res = await api.post<TypeMobilhome>(
-    `/api/owners/${id}/mobilhomes`,
+    `/api/owners/${ownerId}/mobilhomes`,
     data
   );
+  return res.data;
+};
+
+export const modifMobilhomeOwner = async (
+  ownerId: number,
+  mobilhomeId: number,  
+  data: TypeNewMobilhome
+) => {
+  const res = await api.put<TypeMobilhome>(
+    `/api/owners/${ownerId}/mobilhomes/${mobilhomeId}`,
+    data
+  );
+  return res.data;
+};
+
+export const deleteMobilhomeOwner = async (
+  ownerId: number,
+  mobilhomeId: number
+) => {
+  const res = await api.delete(`/api/owners/${ownerId}/mobilhomes/${mobilhomeId}`);
   return res.data;
 };
 

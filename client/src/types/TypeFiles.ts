@@ -20,6 +20,13 @@ export interface TypeNewMobilhome {
   managerId: number;
 }
 
+export interface TypeModifMobilhome{
+  id : number;
+  name: string;
+  icalLink: string | null;
+  managerId: number;
+}
+
 export interface TypeManager {
   id: number;  
   name: string;

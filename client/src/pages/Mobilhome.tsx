@@ -10,7 +10,6 @@ function Mobilhome() {
   const { owner } = useOwner();
   const [ownerMobilhome, setOwnerMobilhome] = useState<TypeMobilhome[]>([]);
   const [popAddMobilhome, setPopAddMobilhome] = useState(false);
-  [];
 
   useEffect(() => {
     if (!owner) return;
@@ -19,9 +18,26 @@ function Mobilhome() {
       console.log("mes mobilhome:", data);
       setOwnerMobilhome(data);
     };
-
     axiosMobilhomeByOwner();
   }, [owner]);
+
+  const handleMobilhomeUpdate = (updateMobilhome: TypeMobilhome) => {
+    setOwnerMobilhome((prevMobilhome) =>
+      prevMobilhome.map((mobilhome) =>
+        mobilhome.id === updateMobilhome.id ? updateMobilhome : mobilhome
+      )
+    );
+  };
+
+  const handleMobilhomeDelete = (mobilhomeId: number) => {
+    setOwnerMobilhome((prevMobilhome) =>
+      prevMobilhome.filter((mobilhome) => mobilhome.id !== mobilhomeId)
+    );
+  };
+
+  if (!owner) {
+    return null;
+  }
 
   return (
     <>
@@ -46,7 +62,13 @@ function Mobilhome() {
       <section className="flex flex-wrap gap-4 justify-center">
         {ownerMobilhome.map((mobilhome) => (
           <div key={mobilhome.id}>
-            <MobilhomeCard mobilhome={mobilhome} />
+            <MobilhomeCard
+              onDelete={handleMobilhomeDelete}
+              onUpdated={handleMobilhomeUpdate}
+              mobilhome={mobilhome}
+              id={owner!.id}
+              ownerMobilhome={ownerMobilhome}
+            />
           </div>
         ))}
       </section>
