@@ -12,7 +12,14 @@ public static class OwnerMapper
             Id = owner.Id,
             Name = owner.Name,
             Email = owner.Email,
-            IsAdmin = owner.IsAdmin
+            IsAdmin = owner.IsAdmin,
+            Links = owner.Links.Select(l => new LinkDto
+            {
+                Id = l.Id,
+                Name = l.Name,
+                Url = l.Url,
+                OwnerId = l.OwnerId
+            }).ToList()
         };
     }
 }

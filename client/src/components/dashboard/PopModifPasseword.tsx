@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { ImExit } from "react-icons/im";
-import { useOwner } from "../context/ownerContext";
+import { useOwner } from "../../context/ownerContext";
+import { modifPassword } from "../../services/authService";
+import type { TypeOwner } from "../../types/TypeFiles";
 
 function PopModifPasseword({
   id,
@@ -10,39 +12,27 @@ function PopModifPasseword({
   id: number;
   onClose: () => void;
 }) {
-  const { owner } = useOwner();
+  const { setOwner } = useOwner();
   const [showPassword, setShowPassword] = useState(false);
   async function postModifPasseword(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirmPassword") as string;
-    const token = localStorage.getItem("token") || "";
-    const email = owner?.email || "";
-    if (password !== confirmPassword) {
+    const oldPassword = formData.get("oldPassword") as string;
+    const newPassword = formData.get("newPassword") as string;
+    const confirmNewPassword = formData.get("confirmNewPassword") as string;
+
+    if (newPassword !== confirmNewPassword) {
       alert("Les mots de passe ne correspondent pas");
       return;
     }
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/owner/password/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-        body: JSON.stringify({
-          password: password,
-          email: email,
-        }),
-      }
+    const modifPassewordOwner = await modifPassword(
+      id,
+      oldPassword,
+      newPassword
     );
-    if (response.ok) {
-      alert("Mot de passe modifié avec succès");
-      onClose();
-    } else {
-      alert("Erreur lors de la modification du mot de passe");
-    }
+    setOwner(modifPassewordOwner);
+    onClose();
   }
 
   return (
@@ -52,23 +42,34 @@ function PopModifPasseword({
     >
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold m-auto flex items-center mb-4">
-          Saisir le nouveau <br /> mot de passe
+          Changement du
+          <br />
+          mot de passe
         </h1>
         <ImExit
           onClick={() => onClose()}
           className="text-2xl hover:cursor-pointer"
         />
       </div>
+      <h2>Ancien mot de passe:</h2>
+      <input
+        className="bg-(--color-background) w-50 p-2 rounded-lg mx-auto"
+        type="text"
+        id="oldPassword"
+        name="oldPassword"
+        required
+      />
+      <h2>Nouveau mot de passe:</h2>
       <input
         className="bg-(--color-background) w-50 p-2 rounded-lg mx-auto"
         type={showPassword ? "text" : "password"}
-        id="password"
-        name="password"
+        id="newPassword"
+        name="newPassword"
         required
       />
 
       <div className="flex flex-row justify-between">
-        <h3>Confirmer</h3>
+        <h3>Confirmez:</h3>
         <button
           className="hover:cursor-pointer flex items-center text-(--color-primary)"
           type="button"
@@ -82,8 +83,8 @@ function PopModifPasseword({
       <input
         className="bg-(--color-background) w-50 p-2 rounded-lg mx-auto"
         type={showPassword ? "text" : "password"}
-        id="confirmPassword"
-        name="confirmPassword"
+        id="confirmNewPassword"
+        name="confirmNewPassword"
         required
       />
 

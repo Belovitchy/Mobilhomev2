@@ -25,7 +25,9 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<Owner?> GetByEmailAsync(string email)
     {
-        var model = await _db.Owners.FirstOrDefaultAsync(o => o.Email == email);
+        var model = await _db.Owners
+        .Include(o => o.Links)
+        .FirstOrDefaultAsync(o => o.Email == email);
 
         if (model == null) return null;
 
@@ -42,4 +44,25 @@ public class OwnerRepository : IOwnerRepository
         // Optionnel : récupérer l’ID généré par MySQL
         owner.Id = model.Id;
     }
+
+    public async Task UpdateAsync(Owner owner)
+    {
+        Console.WriteLine($"UPDATE OWNER {owner.Id} → {owner.Email}");
+
+        var model = await _db.Owners.FirstOrDefaultAsync(o => o.Id == owner.Id);
+
+        if (model == null)
+        {
+            throw new Exception("Owner not found");
+        }
+
+        model.Email = owner.Email;
+        model.Name = owner.Name;
+        model.Password = owner.Password;
+        model.IsAdmin = owner.IsAdmin;
+
+        var changes = await _db.SaveChangesAsync();
+        Console.WriteLine($"Rows affected: {changes}");
+    }
+
 }

@@ -1,4 +1,5 @@
 using OwnerEntity = Domain.Entities.Owner;
+using LinkEntity = Domain.Entities.Link;
 using OwnerModel = Infrastructure.Persistence.Models.Owner;
 
 namespace Infrastructure.Persistence.Mappers;
@@ -13,7 +14,16 @@ public static class OwnerMapper
             Name = model.Name,
             Email = model.Email,
             Password = model.Password,
-            IsAdmin = model.IsAdmin
+            IsAdmin = model.IsAdmin,
+            Links = model.Links
+                .Select(l => new LinkEntity
+                {
+                    Id = l.Id,
+                    Name = l.Name,
+                    Url = l.Url,
+                    OwnerId = l.OwnerId
+                })
+                .ToList()
         };
     }
 
