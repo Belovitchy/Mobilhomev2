@@ -16,7 +16,9 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<Owner?> GetByIdAsync(uint id)
     {
-        var model = await _db.Owners.FirstOrDefaultAsync(o => o.Id == id);
+        var model = await _db.Owners
+        .Include(o => o.Links)
+        .FirstOrDefaultAsync(o => o.Id == id);
 
         if (model == null) return null;
 
