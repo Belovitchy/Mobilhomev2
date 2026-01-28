@@ -3,7 +3,6 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { ImExit } from "react-icons/im";
 import { useOwner } from "../../context/ownerContext";
 import { modifPassword } from "../../services/authService";
-import type { TypeOwner } from "../../types/TypeFiles";
 
 function PopModifPasseword({
   id,
@@ -29,7 +28,7 @@ function PopModifPasseword({
     const modifPassewordOwner = await modifPassword(
       id,
       oldPassword,
-      newPassword
+      newPassword,
     );
     setOwner(modifPassewordOwner);
     onClose();

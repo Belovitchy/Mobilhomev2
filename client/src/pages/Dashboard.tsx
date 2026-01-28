@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { MdOutlineModeEditOutline } from "react-icons/md";
 import PopModifMail from "../components/dashboard/PopModifMail";
 import PopModifPasseword from "../components/dashboard/PopModifPasseword";
 import { useOwner } from "../context/ownerContext";
 import PopAddLink from "../components/dashboard/PopAddLink";
+import EditBtn from "../components/ui/EditBtn";
+import AddBtn from "../components/ui/AddBtn";
 
 function Dashboard() {
   const { owner, setOwner } = useOwner();
@@ -51,38 +51,33 @@ function Dashboard() {
         <article className="flex flex-col gap-4 bg-(--color-cards) p-4 rounded-lg  mt-4 w-87.5 mx-auto">
           <div className="flex flex-row justify-between items-center">
             <h2>{owner?.email}</h2>
-            <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-              <MdOutlineModeEditOutline
-                onClick={() => handleModifMail()}
-                className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
-              />
-            </div>
+            <EditBtn
+              onClick={() => {
+                handleModifMail();
+              }}
+            />
           </div>
           <div className="flex flex-row justify-between items-center">
             <h2>Mot de passe</h2>
-            <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-              <MdOutlineModeEditOutline
-                onClick={() => handleModifPassword()}
-                className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
-              />
-            </div>
+            <EditBtn
+              onClick={() => {
+                handleModifPassword();
+              }}
+            />
           </div>
           <div className="flex flex-row justify-between items-center">
             <h2>Avatar</h2>
-            <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-              <MdOutlineModeEditOutline className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)" />
-            </div>
+            <EditBtn onClick={() => {}} />
           </div>
         </article>
         <article className="flex flex-col gap-4 bg-(--color-cards) p-4 rounded-lg  mt-4 w-87.5 mx-auto">
           <div className="flex flex-row justify-between items-center">
             <h2>Mes liens</h2>
-            <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-              <FaPlus
-                className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
-                onClick={() => setPopAddLink(true)}
-              />
-            </div>
+            <AddBtn
+              onClick={() => {
+                setPopAddLink(true);
+              }}
+            />
           </div>
         </article>
       </section>
