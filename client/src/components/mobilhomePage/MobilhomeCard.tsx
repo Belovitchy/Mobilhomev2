@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 import type { TypeMobilhome } from "../../types/TypeFiles";
-import { MdOutlineModeEditOutline } from "react-icons/md";
-import { RiDeleteBin5Line } from "react-icons/ri";
 import { useState } from "react";
 import PopModifMobilhome from "./PopModifMobilhome";
 import PopDeletMobilhome from "./PopDeletMobilhome";
+import EditBtn from "../ui/EditBtn";
+import DeleteBtn from "../ui/DeleteBtn";
 
 function MobilhomeCard({
   id,
@@ -63,18 +63,16 @@ function MobilhomeCard({
           </div>
           <h2 className="text-lg font-semibold">{mobilhome.name}</h2>
           <div className="flex flex-row gap-2">
-            <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-              <MdOutlineModeEditOutline
-                onClick={() => handleModifMobilhome()}
-                className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
-              />
-            </div>
-            <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-              <RiDeleteBin5Line
-                onClick={() => handleDeleteMobilhome()}
-                className="text-(--color-secondary) rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-secondary)"
-              />
-            </div>
+            <EditBtn
+              onClick={() => {
+                handleModifMobilhome();
+              }}
+            />
+            <DeleteBtn
+              onClick={() => {
+                handleDeleteMobilhome();
+              }}
+            />
           </div>
         </div>
         <p>Lien ical: {mobilhome.icalLink}</p>

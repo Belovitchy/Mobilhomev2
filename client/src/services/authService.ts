@@ -27,5 +27,23 @@ export const saveToken = (token: string) => {
     localStorage.setItem("token", token);
 };
 
+export const modifMail = async (id: number, email: string) => {
+    const {data} = await api.patch<TypeOwner>(`/api/owners/${id}/email`, {
+        email
+    });
+    return data;
+};
+
+export const modifPassword = async (id: number, oldPassword: string, newPassword: string) => {
+    const {data} = await api.patch<TypeOwner>(`/api/owners/${id}/password`, {
+        oldPassword,
+        newPassword
+    });
+    return data;
+}
+
+
+
+
 
 

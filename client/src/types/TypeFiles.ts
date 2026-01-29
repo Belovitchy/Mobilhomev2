@@ -4,7 +4,16 @@ export interface TypeOwner {
   email: string;
   password: string;
   isAdmin: boolean;
+  links: TypeLink[];
 }
+
+export interface TypeLink {
+  id: number;
+  name: string;
+  url: string;
+  owner_id: number;
+}
+
 
 export interface TypeMobilhome {
   id: number;

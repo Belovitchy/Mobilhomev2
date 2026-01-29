@@ -50,15 +50,18 @@ const Calendar: React.FC<CalendarProps> = ({ year }) => {
         week.push(
           <td
             className="bg-slate-300 text-center p-2 border border-slate-400"
-            id={`${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}`}
+            id={`${String(day).padStart(2, "0")}/${String(month + 1).padStart(
+              2,
+              "0"
+            )}/${year}`}
             key={day}
           >
             <div>{day}</div>
             <div className="flex flex-row ">
-              <div className="bg-slate-400 min-w-[22px]">m</div>
-              <div className="bg-slate-400 min-w-[22px]">a</div>
+              <div className="bg-slate-400 min-w-5.5">m</div>
+              <div className="bg-slate-400 min-w-5.5">a</div>
             </div>
-          </td>,
+          </td>
         );
 
         if (week.length === 7) {
@@ -94,7 +97,7 @@ const Calendar: React.FC<CalendarProps> = ({ year }) => {
             </thead>
             <tbody>{monthRows}</tbody>
           </table>
-        </div>,
+        </div>
       );
     }
 

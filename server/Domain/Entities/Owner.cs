@@ -6,6 +6,7 @@ public class Owner
     public string Name { get; set; } = null!;
     public string Email { get; set; } = null!;
     public bool IsAdmin { get; set; }
-
     public string Password { get; set; } = null!;   // hash
+    public ICollection<Link> Links { get; set; } = new List<Link>();
+
 }

@@ -17,7 +17,7 @@ public class SignInHandler
         _passwordHasher = passwordHasher;
     }
 
-    public async Task ExecuteAsync(SignInCommand command)
+    public async Task Handle(SignInCommand command)
     {
         var existing = await _ownerRepository.GetByEmailAsync(command.Email);
         if (existing != null)

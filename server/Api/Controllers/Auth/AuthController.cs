@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
     [HttpPost("signin")]
     public async Task<IActionResult> SignIn(SignInCommand command)
     {
-        await _signInHandler.ExecuteAsync(command);
+        await _signInHandler.Handle(command);
         return Ok();
     }
 
