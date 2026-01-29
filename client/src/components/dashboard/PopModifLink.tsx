@@ -1,23 +1,32 @@
+import type { TypeLink } from "../../types/TypeFiles";
 import PopCard from "../ui/PopCard";
-import { addLink } from "../../services/linksService";
+import { modifLink } from "../../services/linksService";
 import { useOwner } from "../../context/ownerContext";
 import ValidBtn from "../ui/ValidBtn";
 
-function PopAddLink({ id, onClose }: { id: number; onClose: () => void }) {
+function PopModifLink({
+  link,
+  id,
+  onClose,
+}: {
+  link: TypeLink | null;
+  id: number;
+  onClose: () => void;
+}) {
   const { setOwner } = useOwner();
 
-  async function postAddLink(e: React.FormEvent<HTMLFormElement>) {
+  async function postModifLink(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const url = formData.get("url") as string;
-    const newLink = await addLink(id, name, url);
-    console.log(newLink);
+    const updateLink = await modifLink(id, link!.id, name, url);
+    console.log(modifLink);
     setOwner((prevOwner) => {
       if (!prevOwner) return null;
       return {
         ...prevOwner,
-        links: [...prevOwner.links, newLink],
+        links: prevOwner.links.map((l) => (l.id === link!.id ? updateLink : l)),
       };
     });
 
@@ -25,9 +34,9 @@ function PopAddLink({ id, onClose }: { id: number; onClose: () => void }) {
   }
 
   return (
-    <PopCard title="Nouveau lien" onClose={() => onClose()}>
+    <PopCard title={`Modifier ${link?.name} ?`} onClose={() => onClose()}>
       <form
-        onSubmit={(e) => postAddLink(e)}
+        onSubmit={(e) => postModifLink(e)}
         className=" flex flex-col gap-4 p-4"
       >
         <label htmlFor="name">Nom :</label>
@@ -36,6 +45,7 @@ function PopAddLink({ id, onClose }: { id: number; onClose: () => void }) {
           type="text"
           id="text"
           name="name"
+          defaultValue={link?.name}
           required
         />
         <label htmlFor="url">Url :</label>
@@ -44,6 +54,7 @@ function PopAddLink({ id, onClose }: { id: number; onClose: () => void }) {
           type="text"
           id="text"
           name="url"
+          defaultValue={link?.url}
           required
         />
 
@@ -53,4 +64,4 @@ function PopAddLink({ id, onClose }: { id: number; onClose: () => void }) {
   );
 }
 
-export default PopAddLink;
+export default PopModifLink;

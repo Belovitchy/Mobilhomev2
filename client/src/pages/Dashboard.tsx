@@ -6,12 +6,18 @@ import PopAddLink from "../components/dashboard/PopAddLink";
 import EditBtn from "../components/ui/EditBtn";
 import AddBtn from "../components/ui/AddBtn";
 import DeleteBtn from "../components/ui/DeleteBtn";
+import PopDeleteLink from "../components/dashboard/PopDeleteLink";
+import type { TypeLink } from "../types/TypeFiles";
+import PopModifLink from "../components/dashboard/PopModifLink";
 
 function Dashboard() {
   const { owner, setOwner } = useOwner();
   const [popModifMail, setPopModifMail] = useState(false);
   const [popModifPassword, setPopModifPassword] = useState(false);
   const [popAddLink, setPopAddLink] = useState(false);
+  const [popDeleteLink, setPopDeleteLink] = useState(false);
+  const [link, setLink] = useState<TypeLink | null>(null);
+  const [popModifLink, setPopModifLink] = useState(false);
 
   function handleModifMail() {
     setPopModifMail(true);
@@ -21,8 +27,36 @@ function Dashboard() {
     setPopModifPassword(true);
   }
 
+  function handleDeleteLink(link: TypeLink) {
+    setLink(link);
+    setPopDeleteLink(true);
+  }
+
+  function handleModifLink(link: TypeLink) {
+    setLink(link);
+    setPopModifLink(true);
+  }
+
   return (
     <>
+      {popModifLink && owner && owner.id ? (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
+          <PopModifLink
+            link={link}
+            id={owner.id}
+            onClose={() => setPopModifLink(false)}
+          />
+        </div>
+      ) : null}
+      {popDeleteLink && owner && owner.id ? (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
+          <PopDeleteLink
+            link={link}
+            id={owner.id}
+            onClose={() => setPopDeleteLink(false)}
+          />
+        </div>
+      ) : null}
       {popModifPassword && owner && owner.id ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopModifPasseword
@@ -89,8 +123,8 @@ function Dashboard() {
                 {link.name}
               </a>
               <div className="flex flex-row gap-2">
-                <EditBtn onClick={() => {}} />
-                <DeleteBtn onClick={() => {}} />
+                <EditBtn onClick={() => handleModifLink(link)} />
+                <DeleteBtn onClick={() => handleDeleteLink(link)} />
               </div>
             </div>
           ))}

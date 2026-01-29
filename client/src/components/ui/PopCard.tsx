@@ -12,7 +12,7 @@ function PopCard({
   return (
     <section className="absolute top-1/16 left-1/2 transform -translate-x-1/2 w-85 bg-(--color-cards)  mx-auto  border-2 border-(--color-primary) rounded-2xl ">
       <div className="flex justify-between items-center p-6 ">
-        <h1 className="text-2xl font-bold  flex items-center max-w-2/3">
+        <h1 className="text-2xl font-bold  flex items-center max-w-5/6">
           {title}
         </h1>
         <ImExit

@@ -16,6 +16,16 @@ public class linkRepository : ILinkRepository
         _db = db;
     }
 
+    public async Task<Link?> GetByIdAsync(uint linkId)
+    {
+        var model = await _db.Links.FirstOrDefaultAsync(l => l.Id == linkId);
+
+        if (model == null) return null;
+
+        return LinkMapper.ToEntity(model);
+    }
+
+
     public async Task<Link> AddAsync(Link link)
     {
         var model = LinkMapper.ToModel(link);
@@ -25,5 +35,27 @@ public class linkRepository : ILinkRepository
 
         return LinkMapper.ToEntity(model);
     }
-}
 
+    public async Task DeleteAsync(uint linkId)
+    {
+        var model = await _db.Links.FindAsync(linkId);
+
+        if (model == null) return;
+        _db.Links.Remove(model);
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(Link link)
+    {
+        var model = await _db.Links.FirstOrDefaultAsync(l => l.Id == link.Id);
+
+        if (model == null) return;
+
+        model.Name = link.Name;
+        model.Url = link.Url;
+
+        await _db.SaveChangesAsync();
+
+    }
+
+}

@@ -1,6 +1,7 @@
 import type { TypeMobilhome } from "../../types/TypeFiles";
-import { ImExit } from "react-icons/im";
+import ValidBtn from "../ui/ValidBtn";
 import { modifMobilhomeOwner } from "../../services/mobilhomeService";
+import PopCard from "../ui/PopCard";
 
 function PopModifMobilhome({
   id,
@@ -19,8 +20,8 @@ function PopModifMobilhome({
     new Map(
       ownerMobilhome
         .filter((m) => m.manager)
-        .map((m) => [m.manager.id, m.manager])
-    ).values()
+        .map((m) => [m.manager.id, m.manager]),
+    ).values(),
   );
 
   async function postModifMobilhome(e: React.FormEvent<HTMLFormElement>) {
@@ -44,58 +45,49 @@ function PopModifMobilhome({
 
   return (
     <>
-      <form
-        onSubmit={(e) => postModifMobilhome(e)}
-        className="absolute top-6 left-1/2 transform -translate-x-1/2 w-85 bg-(--color-cards)  mx-auto  border-2 border-(--color-primary) rounded-2xl flex flex-col gap-4 p-4 "
+      <PopCard
+        title={`Modifier ${mobilhome.name} ? `}
+        onClose={() => onClose()}
       >
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold m-auto flex items-center mb-4">
-            Modifier mobilhome
-          </h1>
-          <ImExit
-            onClick={() => onClose()}
-            className="text-2xl hover:cursor-pointer"
+        <form
+          onSubmit={(e) => postModifMobilhome(e)}
+          className="flex flex-col gap-4 p-4"
+        >
+          <label htmlFor="mobilhomeName">Nom:</label>
+          <input
+            className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
+            type="text"
+            name="mobilhomeName"
+            id="mobilhomeName"
+            defaultValue={mobilhome.name}
+            required
           />
-        </div>
-        <label htmlFor="mobilhomeName">Nom:</label>
-        <input
-          className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
-          type="text"
-          name="mobilhomeName"
-          id="mobilhomeName"
-          defaultValue={mobilhome.name}
-          required
-        />
-        <label htmlFor="icalLink">Lien ical:</label>
-        <input
-          className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
-          type="text"
-          name="icalLink"
-          defaultValue={mobilhome.icalLink}
-          id="icalLink"
-        />
-        <label htmlFor="managerName">Gérant:</label>
-        <select
-          className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
-          name="managerId"
-          id="managerId"
-          defaultValue={mobilhome.manager.id}
-          required
-        >
-          <option value="">--choisir un gérant--</option>
-          {managers.map((manager) => (
-            <option key={manager.id} value={manager.id}>
-              {manager.name} {manager.firstname}
-            </option>
-          ))}
-        </select>
-        <button
-          type="submit"
-          className="w-40 mx-auto bg-(--color-cards) text-(--color-primary) border-2 border-(--color-primary) px-4 py-2 rounded-full hover:bg-(--color-primary) hover:text-(--color-cards) transition-colors duration-300 my-8 hover:cursor-pointer"
-        >
-          Valider
-        </button>
-      </form>
+          <label htmlFor="icalLink">Lien ical:</label>
+          <input
+            className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
+            type="text"
+            name="icalLink"
+            defaultValue={mobilhome.icalLink}
+            id="icalLink"
+          />
+          <label htmlFor="managerName">Gérant:</label>
+          <select
+            className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
+            name="managerId"
+            id="managerId"
+            defaultValue={mobilhome.manager.id}
+            required
+          >
+            <option value="">--choisir un gérant--</option>
+            {managers.map((manager) => (
+              <option key={manager.id} value={manager.id}>
+                {manager.name} {manager.firstname}
+              </option>
+            ))}
+          </select>
+          <ValidBtn type="submit" />
+        </form>
+      </PopCard>
     </>
   );
 }
