@@ -15,6 +15,7 @@ using Application.UseCases.Mobilhomes.UpdateMobilhome;
 using Application.UseCases.Mobilhomes.DeleteMobilhome;
 using Application.UseCases.Auth.UpdateEmailOwner;
 using Application.UseCases.Auth.UpdatePassOwner;
+using Application.UseCases.Links.AddLink;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,6 +74,9 @@ builder.Services.AddScoped<UpdateMobilhomeHandler>();
 builder.Services.AddScoped<DeleteMobilhomeHandler>();
 builder.Services.AddScoped<UpdateEmailOwnerHandler>();
 builder.Services.AddScoped<UpdatePassOwnerHandler>();
+builder.Services.AddScoped<AddLinkHandler>();
+
+
 
 
 

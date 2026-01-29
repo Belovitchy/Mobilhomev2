@@ -5,6 +5,7 @@ import { useOwner } from "../context/ownerContext";
 import PopAddLink from "../components/dashboard/PopAddLink";
 import EditBtn from "../components/ui/EditBtn";
 import AddBtn from "../components/ui/AddBtn";
+import DeleteBtn from "../components/ui/DeleteBtn";
 
 function Dashboard() {
   const { owner, setOwner } = useOwner();
@@ -79,6 +80,20 @@ function Dashboard() {
               }}
             />
           </div>
+          {owner?.links.map((link) => (
+            <div
+              className="flex flex-row justify-between items-center"
+              key={link.id}
+            >
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                {link.name}
+              </a>
+              <div className="flex flex-row gap-2">
+                <EditBtn onClick={() => {}} />
+                <DeleteBtn onClick={() => {}} />
+              </div>
+            </div>
+          ))}
         </article>
       </section>
       <section>
