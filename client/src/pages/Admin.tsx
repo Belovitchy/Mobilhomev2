@@ -35,11 +35,11 @@ function Admin() {
           <PopAddOwner onClose={() => setPopAddOwner(false)} />
         </div>
       ) : null}
-      <h1 className="flex flex-row items-center justify-center gap-6  text-2xl bg-[var(--color-cards)] text-[var(--color-primary)] p-4 rounded-lg w-full text-center border-2 border-[var(--color-primary)]">
+      <h1 className="flex flex-row items-center justify-center gap-6  text-2xl bg-(--color-cards) text-(--color-primary) p-4 rounded-lg w-full text-center border-2 border-(--color-primary)">
         Gestion des comptes{" "}
-        <div className="w-10 h-10 bg-[var(--color-cards)] rounded-lg border-2 border-[var(--color-primary)] flex items-center justify-center">
+        <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
           <FaPlus
-            className="rounded-lg w-10/12 h-10/12 hover:text-[var(--color-cards)] hover:cursor-pointer hover:bg-[var(--color-primary)]"
+            className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
             onClick={() => setPopAddOwner(true)}
           />
         </div>

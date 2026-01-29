@@ -4,22 +4,43 @@ export interface TypeOwner {
   email: string;
   password: string;
   isAdmin: boolean;
+  links: TypeLink[];
 }
 
-export interface TypeMobilhome {
+export interface TypeLink {
   id: number;
-  mobilhomeName: string;
-  managerName: string;
-  managerFirstname: string;
   name: string;
-  manager_id: number;
+  url: string;
   owner_id: number;
 }
 
-export interface TypeManager {
+
+export interface TypeMobilhome {
   id: number;
+  name: string;
+  icalLink: string;
+  managerId:number  
+  manager:TypeManager  
+}
+
+export interface TypeNewMobilhome {
+  name: string;
+  icalLink: string | null;
+  managerId: number;
+}
+
+export interface TypeModifMobilhome{
+  id : number;
+  name: string;
+  icalLink: string | null;
+  managerId: number;
+}
+
+export interface TypeManager {
+  id: number;  
   name: string;
   firstname: string;
   email: string;
   telephone: string;
+  owner_id: number;
 }

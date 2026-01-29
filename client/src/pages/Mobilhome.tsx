@@ -1,9 +1,10 @@
 import { useOwner } from "../context/ownerContext";
 import { useEffect, useState } from "react";
 import type { TypeMobilhome } from "../types/TypeFiles";
-import { FaPlus } from "react-icons/fa6";
-import MobilhomeCard from "../components/MobilhomeCard";
-import PopAddMobilhome from "../components/PopAddMobilhome";
+import MobilhomeCard from "../components/mobilhomePage/MobilhomeCard";
+import PopAddMobilhome from "../components/mobilhomePage/PopAddMobilhome";
+import { getMobilhomesByOwner } from "../services/mobilhomeService";
+import AddBtn from "../components/ui/AddBtn";
 
 function Mobilhome() {
   const { owner } = useOwner();
@@ -12,42 +13,61 @@ function Mobilhome() {
 
   useEffect(() => {
     if (!owner) return;
-    fetch(`${import.meta.env.VITE_API_URL}/api/owner/mobilhome/${owner.id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token") || "",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("mes mobilhome:", data);
-        setOwnerMobilhome(data);
-      });
+    const axiosMobilhomeByOwner = async () => {
+      const data = await getMobilhomesByOwner(owner.id);
+      console.log("mes mobilhome:", data);
+      setOwnerMobilhome(data);
+    };
+    axiosMobilhomeByOwner();
   }, [owner]);
+
+  const handleMobilhomeUpdate = (updateMobilhome: TypeMobilhome) => {
+    setOwnerMobilhome((prevMobilhome) =>
+      prevMobilhome.map((mobilhome) =>
+        mobilhome.id === updateMobilhome.id ? updateMobilhome : mobilhome,
+      ),
+    );
+  };
+
+  const handleMobilhomeDelete = (mobilhomeId: number) => {
+    setOwnerMobilhome((prevMobilhome) =>
+      prevMobilhome.filter((mobilhome) => mobilhome.id !== mobilhomeId),
+    );
+  };
+
+  if (!owner) {
+    return null;
+  }
 
   return (
     <>
       {popAddMobilhome ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopAddMobilhome
-            id={owner?.id}
+            id={owner!.id}
             onClose={() => setPopAddMobilhome(false)}
+            setOwnerMobilhome={setOwnerMobilhome}
           />
         </div>
       ) : null}
-      <h1 className="flex flex-row items-center justify-center gap-6  text-2xl bg-[var(--color-cards)] text-[var(--color-primary)] p-4 rounded-lg w-full text-center border-2 border-[var(--color-primary)] mb-6">
+      <h1 className="flex flex-row items-center justify-center gap-6  text-2xl bg-(--color-cards) text-(--color-primary) p-4 rounded-lg w-full text-center border-2 border-(--color-primary) mb-6">
         Mes mobilhomes{" "}
-        <div className="w-10 h-10 bg-[var(--color-cards)] rounded-lg border-2 border-[var(--color-primary)] flex items-center justify-center">
-          <FaPlus
-            className="rounded-lg w-10/12 h-10/12 hover:text-[var(--color-cards)] hover:cursor-pointer hover:bg-[var(--color-primary)]"
-            onClick={() => setPopAddMobilhome(true)}
-          />
-        </div>
+        <AddBtn
+          onClick={() => {
+            setPopAddMobilhome(true);
+          }}
+        />
       </h1>
-      <section className="flex flex-wrap gap-4">
+      <section className="flex flex-wrap gap-4 justify-center">
         {ownerMobilhome.map((mobilhome) => (
           <div key={mobilhome.id}>
-            <MobilhomeCard mobilhome={mobilhome} />
+            <MobilhomeCard
+              onDelete={handleMobilhomeDelete}
+              onUpdated={handleMobilhomeUpdate}
+              mobilhome={mobilhome}
+              id={owner!.id}
+              ownerMobilhome={ownerMobilhome}
+            />
           </div>
         ))}
       </section>
