@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router";
 import OwnerCard from "../components/OwnerCard";
-import PopAddOwner from "../components/PopAddOwner";
+import PopAddOwner from "../components/admin/PopAddOwner";
 import { useOwner } from "../context/ownerContext";
 import type { TypeOwner } from "../types/TypeFiles";
+import AddBtn from "../components/ui/AddBtn";
 
 function Admin() {
   const { owner } = useOwner();
@@ -37,12 +37,11 @@ function Admin() {
       ) : null}
       <h1 className="flex flex-row items-center justify-center gap-6  text-2xl bg-(--color-cards) text-(--color-primary) p-4 rounded-lg w-full text-center border-2 border-(--color-primary)">
         Gestion des comptes{" "}
-        <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
-          <FaPlus
-            className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
-            onClick={() => setPopAddOwner(true)}
-          />
-        </div>
+        <AddBtn
+          onClick={() => {
+            setPopAddOwner(true);
+          }}
+        />
       </h1>
 
       <section className="compte flex flex-wrap gap-4 my-4">
