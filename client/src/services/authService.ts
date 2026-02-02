@@ -42,6 +42,17 @@ export const modifPassword = async (id: number, oldPassword: string, newPassword
     return data;
 }
 
+export const signIn = async (name: string, email: string, password: string, isAdmin: boolean) => {
+    const {data} = await api.post<TypeOwner>("/api/auth/signin", {
+        name,
+        email,
+        password,
+        isAdmin
+    });
+    return data;
+};
+
+
 
 
 

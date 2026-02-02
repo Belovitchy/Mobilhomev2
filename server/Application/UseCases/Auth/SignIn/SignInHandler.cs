@@ -30,7 +30,7 @@ public class SignInHandler
             Name = command.Name,
             Email = command.Email,
             Password = hash,
-            IsAdmin = false
+            IsAdmin = command.IsAdmin
         };
 
         await _ownerRepository.AddAsync(owner);

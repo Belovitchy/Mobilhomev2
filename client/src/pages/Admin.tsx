@@ -5,34 +5,35 @@ import PopAddOwner from "../components/admin/PopAddOwner";
 import { useOwner } from "../context/ownerContext";
 import type { TypeOwner } from "../types/TypeFiles";
 import AddBtn from "../components/ui/AddBtn";
+import { getOwners } from "../services/adminService";
 
 function Admin() {
-  const { owner } = useOwner();
+  const { owner, isAdmin } = useOwner();
   const [allOwners, setAllOwners] = useState<TypeOwner[]>([]);
   const [popAddOwner, setPopAddOwner] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!owner?.isAdmin) {
+    if (!owner?.isAdmin || !isAdmin) {
       navigate("/");
       return;
     }
-    fetch(`${import.meta.env.VITE_API_URL}/api/admin`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token") || "",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setAllOwners(data);
-      });
-  }, [owner, navigate]);
+    const getAllOwners = async () => {
+      const data = await getOwners();
+      setAllOwners(data);
+    };
+    getAllOwners();
+    setAllOwners(allOwners);
+    console.log(allOwners);
+  }, [owner, navigate, isAdmin]);
   return (
     <>
       {popAddOwner ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <PopAddOwner onClose={() => setPopAddOwner(false)} />
+          <PopAddOwner
+            setAllOwners={setAllOwners}
+            onClose={() => setPopAddOwner(false)}
+          />
         </div>
       ) : null}
       <h1 className="flex flex-row items-center justify-center gap-6  text-2xl bg-(--color-cards) text-(--color-primary) p-4 rounded-lg w-full text-center border-2 border-(--color-primary)">

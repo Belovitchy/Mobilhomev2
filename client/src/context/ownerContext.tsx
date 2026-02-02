@@ -4,14 +4,17 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
 } from "react";
 import { useLocation, useNavigate } from "react-router";
 import type { TypeOwner } from "../types/TypeFiles";
 import { getMe, logout } from "../services/authService";
+import { isAdminFromToken } from "../utils/jwt";
 
 type OwnerContextType = {
   isConnected: boolean;
   owner: TypeOwner | null;
+  isAdmin: boolean;
   setIsConnected: React.Dispatch<React.SetStateAction<boolean>>;
   setOwner: React.Dispatch<React.SetStateAction<TypeOwner | null>>; //
 };
@@ -22,6 +25,13 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const token = localStorage.getItem("token");
+
+  const isAdmin = useMemo(() => {
+    if (!token) return false;
+    return isAdminFromToken(token);
+  }, [token]);
 
   useEffect(() => {
     if (location.pathname === "/") return;
@@ -46,7 +56,7 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
 
   return (
     <OwnerContext.Provider
-      value={{ owner, setOwner, isConnected, setIsConnected }}
+      value={{ owner, setOwner, isConnected, setIsConnected, isAdmin }}
     >
       {children}
     </OwnerContext.Provider>

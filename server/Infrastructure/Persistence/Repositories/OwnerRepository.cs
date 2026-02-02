@@ -13,6 +13,15 @@ public class OwnerRepository : IOwnerRepository
     {
         _db = db;
     }
+    //j'en suis ici/////////////////////////////////////////////////
+    public async Task<List<Owner>> GetAllAsync()
+    {
+        var models = await _db.Owners
+        .ToListAsync();
+
+        return models.Select(OwnerMapper.ToEntity).ToList();
+    }
+
 
     public async Task<Owner?> GetByIdAsync(uint id)
     {

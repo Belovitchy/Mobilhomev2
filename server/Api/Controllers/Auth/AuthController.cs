@@ -29,6 +29,7 @@ public class AuthController : ControllerBase
         _loginhandler = loginhandler;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost("signin")]
     public async Task<IActionResult> SignIn(SignInCommand command)
     {

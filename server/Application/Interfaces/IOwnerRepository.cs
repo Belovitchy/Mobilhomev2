@@ -8,4 +8,5 @@ public interface IOwnerRepository
     Task<Owner?> GetByEmailAsync(string email);
     Task AddAsync(Owner owner);
     Task UpdateAsync(Owner owner);
+    Task<List<Owner>> GetAllAsync();
 }
