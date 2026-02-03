@@ -29,7 +29,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         {
             new Claim(ClaimTypes.NameIdentifier, owner.Id.ToString()),
             new Claim(ClaimTypes.Email, owner.Email),
-            new Claim("isAdmin", owner.IsAdmin.ToString())
+            // new Claim("isAdmin", owner.IsAdmin.ToString())
+            new Claim(ClaimTypes.Role, owner.IsAdmin ? "admin" : "user")
         };
 
         var key = new SymmetricSecurityKey(

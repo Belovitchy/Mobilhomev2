@@ -1,6 +1,7 @@
 import { modifMail } from "../../services/authService";
 import type { TypeOwner } from "../../types/TypeFiles";
 import PopCard from "../ui/PopCard";
+import ValidBtn from "../ui/ValidBtn";
 
 function PopModifMail({
   id,
@@ -48,12 +49,7 @@ function PopModifMail({
           name="confirmEmail"
           required
         />
-        <button
-          type="submit"
-          className="w-40 mx-auto bg-(--color-cards) text-(--color-primary) border-2 border-(--color-primary) px-4 py-2 rounded-full hover:bg-(--color-primary) hover:text-(--color-cards) transition-colors duration-300 my-8 hover:cursor-pointer"
-        >
-          Valider
-        </button>
+        <ValidBtn type="submit" />
       </form>
     </PopCard>
   );

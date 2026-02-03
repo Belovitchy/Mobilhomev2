@@ -1,6 +1,6 @@
 using Application.UseCases.Auth.Login;
 using Microsoft.AspNetCore.Mvc;
-using Application.UseCases.Auth.SignIn;
+
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Application.Mappers;
@@ -16,25 +16,20 @@ public class AuthController : ControllerBase
 {
     private readonly IOwnerRepository _ownerRepository;
     private readonly LoginHandler _loginhandler;
-    private readonly SignInHandler _signInHandler;
+
 
 
     public AuthController(
         IOwnerRepository ownerRepository,
-        SignInHandler signInHandler,
+
         LoginHandler loginhandler)
     {
         _ownerRepository = ownerRepository;
-        _signInHandler = signInHandler;
+
         _loginhandler = loginhandler;
     }
 
-    [HttpPost("signin")]
-    public async Task<IActionResult> SignIn(SignInCommand command)
-    {
-        await _signInHandler.Handle(command);
-        return Ok();
-    }
+
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginCommand command)

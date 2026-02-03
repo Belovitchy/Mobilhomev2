@@ -3,6 +3,8 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router";
 import { useOwner } from "../context/ownerContext";
 import { logout, login, saveToken } from "../services/authService";
+import ValidBtn from "../components/ui/ValidBtn";
+import PopCard from "../components/ui/PopCard";
 
 function Accueil() {
   const { setOwner, setIsConnected, isConnected } = useOwner();
@@ -14,7 +16,7 @@ function Accueil() {
     const form = event.target as HTMLFormElement;
     const emailInput = form.elements.namedItem("email") as HTMLInputElement;
     const passwordInput = form.elements.namedItem(
-      "password"
+      "password",
     ) as HTMLInputElement;
     const email = emailInput.value;
     const password = passwordInput.value;
@@ -74,27 +76,17 @@ function Accueil() {
               </button>
             </div>
           </div>
-          <button
-            className="border-(--color-primary) border-2 p-2 rounded-full mb-6 w-40 mx-auto hover:bg-(--color-primary) hover:text-(--color-cards) transition-colors duration-300"
-            type="submit"
-          >
-            Valider
-          </button>
+          <ValidBtn type="submit" />
         </form>
       ) : (
-        <form
-          className="absolute top-1/4 left-1/2 transform -translate-x-1/2  w-85 bg-(--color-cards) cards mx-auto p-4 border-2 border-(--color-primary) rounded-2xl flex flex-col gap-8 mt-16"
-          onSubmit={() => handleLogout()}
-        >
-          <h1 className="text-2xl font-bold m-auto">Se déconnecter</h1>
-
-          <button
-            className="border-(--color-primary) border-2 p-2 rounded-full mb-6 w-40 mx-auto hover:bg-(--color-primary) hover:text-(--color-cards) transition-colors duration-300"
-            type="submit"
+        <PopCard title="Se déconnecter" onClose={() => navigate("/dashboard")}>
+          <form
+            className="flex flex-col gap-4 "
+            onSubmit={() => handleLogout()}
           >
-            Valider
-          </button>
-        </form>
+            <ValidBtn type="submit" />
+          </form>
+        </PopCard>
       )}
     </>
   );

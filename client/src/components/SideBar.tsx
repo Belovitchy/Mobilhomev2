@@ -5,7 +5,7 @@ import { useOwner } from "../context/ownerContext";
 
 function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { owner } = useOwner();
+  const { owner, isAdmin } = useOwner();
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
   console.log(owner);
@@ -62,7 +62,7 @@ function SideBar() {
                     >
                       Gérants
                     </Link>
-                    {owner.isAdmin ? (
+                    {owner.isAdmin && isAdmin ? (
                       <Link
                         className={`p-4 rounded-lg transition-colors duration-300 ${
                           isActive("/dashboard/admin")

@@ -40,44 +40,34 @@ function Dashboard() {
   return (
     <>
       {popModifLink && owner && owner.id ? (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <PopModifLink
-            link={link}
-            id={owner.id}
-            onClose={() => setPopModifLink(false)}
-          />
-        </div>
+        <PopModifLink
+          link={link}
+          id={owner.id}
+          onClose={() => setPopModifLink(false)}
+        />
       ) : null}
       {popDeleteLink && owner && owner.id ? (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <PopDeleteLink
-            link={link}
-            id={owner.id}
-            onClose={() => setPopDeleteLink(false)}
-          />
-        </div>
+        <PopDeleteLink
+          link={link}
+          id={owner.id}
+          onClose={() => setPopDeleteLink(false)}
+        />
       ) : null}
       {popModifPassword && owner && owner.id ? (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <PopModifPasseword
-            id={owner.id}
-            onClose={() => setPopModifPassword(false)}
-          />
-        </div>
+        <PopModifPasseword
+          id={owner.id}
+          onClose={() => setPopModifPassword(false)}
+        />
       ) : null}
       {popAddLink && owner && owner.id ? (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <PopAddLink id={owner.id} onClose={() => setPopAddLink(false)} />
-        </div>
+        <PopAddLink id={owner.id} onClose={() => setPopAddLink(false)} />
       ) : null}
       {popModifMail && owner && owner.id ? (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <PopModifMail
-            id={owner.id}
-            setOwner={setOwner}
-            onClose={() => setPopModifMail(false)}
-          />
-        </div>
+        <PopModifMail
+          id={owner.id}
+          setOwner={setOwner}
+          onClose={() => setPopModifMail(false)}
+        />
       ) : null}
       <h1 className="text-2xl bg-(--color-cards) text-(--color-primary) p-4 rounded-lg w-full text-center border-2 border-(--color-primary)">
         Mes infos personnelles
