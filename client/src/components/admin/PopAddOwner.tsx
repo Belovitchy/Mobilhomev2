@@ -2,8 +2,9 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import ValidBtn from "../ui/ValidBtn";
 import PopCard from "../ui/PopCard";
-import { signIn } from "../../services/authService";
+import { signIn } from "../../services/adminService";
 import type { TypeOwner } from "../../types/TypeFiles";
+import { useOwner } from "../../context/ownerContext";
 
 function PopAddOwner({
   onClose,
@@ -13,6 +14,7 @@ function PopAddOwner({
   setAllOwners: React.Dispatch<React.SetStateAction<TypeOwner[]>>;
 }) {
   const [showPassword, setShowPassword] = useState(false);
+  const { owner } = useOwner();
 
   async function postAddOwner(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,7 +32,8 @@ function PopAddOwner({
       alert("Les mots de passe ne correspondent pas");
       return;
     }
-    const newOwner = await signIn(name, email, password, isAdmin);
+    if (!owner) return;
+    const newOwner = await signIn(owner.id, name, email, password, isAdmin);
     setAllOwners((prev) => [...prev, newOwner]);
     onClose();
   }

@@ -13,7 +13,7 @@ public class OwnerRepository : IOwnerRepository
     {
         _db = db;
     }
-    //j'en suis ici/////////////////////////////////////////////////
+
     public async Task<List<Owner>> GetAllAsync()
     {
         var models = await _db.Owners
@@ -45,7 +45,7 @@ public class OwnerRepository : IOwnerRepository
         return OwnerMapper.ToEntity(model);
     }
 
-    public async Task AddAsync(Owner owner)
+    public async Task<Owner> AddAsync(Owner owner)
     {
         var model = OwnerMapper.ToModel(owner);
 
@@ -53,7 +53,8 @@ public class OwnerRepository : IOwnerRepository
         await _db.SaveChangesAsync();
 
         // Optionnel : récupérer l’ID généré par MySQL
-        owner.Id = model.Id;
+        //owner.Id = model.Id;
+        return OwnerMapper.ToEntity(model);
     }
 
     public async Task UpdateAsync(Owner owner)
@@ -74,6 +75,15 @@ public class OwnerRepository : IOwnerRepository
 
         var changes = await _db.SaveChangesAsync();
         Console.WriteLine($"Rows affected: {changes}");
+    }
+
+    public async Task DeleteAsync(uint ownerId)
+    {
+        var model = await _db.Owners.FindAsync(ownerId);
+
+        if (model == null) return;
+        _db.Owners.Remove(model);
+        await _db.SaveChangesAsync();
     }
 
 }

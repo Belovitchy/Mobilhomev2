@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import OwnerCard from "../components/OwnerCard";
+import OwnerCard from "../components/admin/OwnerCard";
 import PopAddOwner from "../components/admin/PopAddOwner";
 import { useOwner } from "../context/ownerContext";
 import type { TypeOwner } from "../types/TypeFiles";
@@ -47,7 +47,11 @@ function Admin() {
 
       <section className="compte flex flex-wrap gap-4 my-4">
         {allOwners.map((owner) => (
-          <OwnerCard key={owner.id} owner={owner} />
+          <OwnerCard
+            key={owner.id}
+            ownerMap={owner}
+            setAllOwners={setAllOwners}
+          />
         ))}
       </section>
     </>

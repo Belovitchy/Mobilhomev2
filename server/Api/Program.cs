@@ -20,6 +20,7 @@ using Application.UseCases.Links.DeleteLink;
 using Application.UseCases.Links.UpdateLink;
 using System.Security.Claims;
 using Application.UseCases.Admin.GetAllOwners;
+using Application.UseCases.Admin.DeleteOwner;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +83,7 @@ builder.Services.AddScoped<AddLinkHandler>();
 builder.Services.AddScoped<DeleteLinkHandler>();
 builder.Services.AddScoped<UpdateLinkHandler>();
 builder.Services.AddScoped<GetAllOwnersHandler>();
+builder.Services.AddScoped<DeleteOwnerHandler>();
 
 
 builder.Services.AddSwaggerGen(c =>
