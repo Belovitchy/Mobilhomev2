@@ -5,29 +5,34 @@ using Application.UseCases.Mobilhomes.AddMobilhome;
 using System.Security.Claims;
 using Application.UseCases.Mobilhomes.UpdateMobilhome;
 using Application.UseCases.Mobilhomes.DeleteMobilhome;
+using Application.UseCases.Mobilhomes.GetMobilhomeDetailById;
 using Application.Mappers;
 
 [ApiController]
 [Route("api/owners/{ownerId}/mobilhomes")]
 public class MobilhomesController : ControllerBase
 {
-    private readonly GetMobilhomesByOwnerHandler _handler;
+    private readonly GetMobilhomesByOwnerHandler _getMobilhomesByOwnerHandler;
     private readonly AddMobilhomeHandler _addMobilhomeHandler;
     private readonly UpdateMobilhomeHandler _updateMobilhomeHandler;
     private readonly DeleteMobilhomeHandler _deleteMobilhomeHandler;
+    private readonly GetMobilhomeDetailByIdHandler _getMobilhomeDetailByIdHandler;
+
 
 
     public MobilhomesController(
         AddMobilhomeHandler addMobilhomeHandler,
-        GetMobilhomesByOwnerHandler handler,
+        GetMobilhomesByOwnerHandler getMobilhomesByOwnerHandler,
         UpdateMobilhomeHandler updateMobilhomeHandler,
-        DeleteMobilhomeHandler deleteMobilhomeHandler
+        DeleteMobilhomeHandler deleteMobilhomeHandler,
+        GetMobilhomeDetailByIdHandler getMobilhomeDetailByIdHandler
     )
     {
-        _handler = handler;
+        _getMobilhomesByOwnerHandler = getMobilhomesByOwnerHandler;
         _addMobilhomeHandler = addMobilhomeHandler;
         _updateMobilhomeHandler = updateMobilhomeHandler;
         _deleteMobilhomeHandler = deleteMobilhomeHandler;
+        _getMobilhomeDetailByIdHandler = getMobilhomeDetailByIdHandler;
     }
 
     [Authorize]
@@ -41,7 +46,7 @@ public class MobilhomesController : ControllerBase
         if (ownerId != ownerIdByToken)
             return Forbid();
 
-        var result = await _handler.Handle(
+        var result = await _getMobilhomesByOwnerHandler.Handle(
             new GetMobilhomesByOwnerQuery(ownerId)
         );
 
@@ -96,8 +101,21 @@ public class MobilhomesController : ControllerBase
 
         await _deleteMobilhomeHandler.Handle(mobilhomeId, ownerIdByToken);
 
-
         return NoContent();
+    }
+
+    [Authorize]
+    [HttpGet("{mobilhomeId:int}")]
+    public async Task<IActionResult> GetById(uint ownerId, uint mobilhomeId)
+    {
+        var ownerIdByToken = uint.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (ownerId != ownerIdByToken)
+            return Forbid();
+
+        var dto = await _getMobilhomeDetailByIdHandler.Handle(new GetMobilhomeDetailByIdCommand(mobilhomeId), ownerIdByToken);
+
+        return Ok(dto);
     }
 
 }

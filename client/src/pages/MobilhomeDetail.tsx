@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { getMobilhomeDetail } from "../services/mobilhomeService";
+import { useOwner } from "../context/ownerContext";
 
 function MobilhomeDetail() {
+  const { owner } = useOwner();
   const [year, setYear] = useState<number>(2026);
 
   //recupérer id mobilhome de l'URL
@@ -18,8 +20,9 @@ function MobilhomeDetail() {
 
   useEffect(() => {
     console.log("Mobilhome ID:", mobilhomeId);
+    if (!owner) return;
     const axiosMobilhomeDetail = async () => {
-      const data = await getMobilhomeDetail(mobilhomeId);
+      const data = await getMobilhomeDetail(owner.id, mobilhomeId, year);
       console.log("detail mobilhome:", data);
     };
 

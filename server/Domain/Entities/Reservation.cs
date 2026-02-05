@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Domain.Entities;
 
-namespace Domain.Entities;
-
-
-
-public partial class Reservation
+public class Reservation
 {
     public uint Id { get; set; }
 
     public DateOnly StartDate { get; set; }
-
     public DateOnly EndDate { get; set; }
 
     public uint MobilhomeId { get; set; }
 
-    public uint OwnerId { get; set; }
+    public string? Comment { get; set; }
+    public string Color { get; set; } = null!;
+    public int? NumberPerson { get; set; }
 
-    public virtual Mobilhome Mobilhome { get; set; } = null!;
+    public sbyte? Funpass { get; set; }
+    public string? Email { get; set; }
+    public string? Immat { get; set; }
+    public string? SibluResa { get; set; }
+    public string? Phone { get; set; }
 
-    public virtual Owner Owner { get; set; } = null!;
-
-    public virtual ICollection<Vacationer> Vacationers { get; set; } = new List<Vacationer>();
+    public List<Vacationer> Vacationers { get; set; } = new();
 }

@@ -15,5 +15,4 @@ public partial class Vacationer
 
     public uint Age { get; set; }
 
-    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

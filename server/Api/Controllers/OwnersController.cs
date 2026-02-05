@@ -34,7 +34,7 @@ public class OwnersController : ControllerBase
         if (owner == null)
             return NotFound();
 
-        var dto = OwnerMapper.ToDto(owner);
+        var dto = OwnerDtoMapper.ToDto(owner);
 
         return Ok(dto);
     }
@@ -49,7 +49,7 @@ public class OwnersController : ControllerBase
 
         var updateOwnerMail = await _updateEmailOwnerHandler.Handle(command, ownerIdByToken);
 
-        var dto = OwnerMapper.ToDto(updateOwnerMail);
+        var dto = OwnerDtoMapper.ToDto(updateOwnerMail);
 
         return Ok(dto);
     }
@@ -64,7 +64,7 @@ public class OwnersController : ControllerBase
 
         var updateOwnerPass = await _updatePassOwnerHandler.Handle(command, ownerIdByToken);
 
-        var dto = OwnerMapper.ToDto(updateOwnerPass);
+        var dto = OwnerDtoMapper.ToDto(updateOwnerPass);
 
         return Ok(dto);
     }

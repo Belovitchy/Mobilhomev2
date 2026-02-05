@@ -13,8 +13,8 @@ export const getMobilhomesByOwner = async (id: number) => {
 };
 
 
-export const getMobilhomeDetail = async (id: number) => {
-  const { data } = await api.get<TypeMobilhome>(`/api/mobilhome/${id}`);
+export const getMobilhomeDetail = async (ownerId: number, id:number, year:number) => {
+  const { data } = await api.get<TypeMobilhome>(`/api/owners/${ownerId}mobilhome/${id}/${year}`);
   return data;
 };
 

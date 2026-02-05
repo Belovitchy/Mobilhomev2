@@ -54,6 +54,6 @@ public class AuthController : ControllerBase
         if (owner is null)
             return Unauthorized();
 
-        return Ok(OwnerMapper.ToDto(owner));
+        return Ok(OwnerDtoMapper.ToDto(owner));
     }
 }

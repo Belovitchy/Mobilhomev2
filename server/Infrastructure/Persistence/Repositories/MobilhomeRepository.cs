@@ -29,6 +29,8 @@ public class MobilhomeRepository : IMobilhomeRepository
     {
         var model = await _db.Mobilhomes
             .Include(m => m.Manager)
+            .Include(m => m.Reservations)
+            .ThenInclude(r => r.Vacationers)
             .FirstOrDefaultAsync(m => m.Id == mobilhomeId);
 
         if (model == null) return null;

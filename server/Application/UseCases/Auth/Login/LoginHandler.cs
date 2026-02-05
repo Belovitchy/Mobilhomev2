@@ -31,6 +31,6 @@ public class LoginHandler
 
         var token = _jwt.Generate(owner);
 
-        return new LoginResultDto { Token = token, Owner = OwnerMapper.ToDto(owner) };
+        return new LoginResultDto { Token = token, Owner = OwnerDtoMapper.ToDto(owner) };
     }
 }
