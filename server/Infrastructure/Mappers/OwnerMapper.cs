@@ -2,7 +2,7 @@ using OwnerEntity = Domain.Entities.Owner;
 using LinkEntity = Domain.Entities.Link;
 using OwnerModel = Infrastructure.Persistence.Models.Owner;
 
-namespace Infrastructure.Persistence.Mappers;
+namespace Infrastructure.Mappers;
 
 public static class OwnerMapper
 {
