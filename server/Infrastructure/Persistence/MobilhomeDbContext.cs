@@ -4,14 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 using Infrastructure.Persistence.Models;
 
-
-
 namespace Infrastructure.Persistence;
 
 public partial class MobilhomeDbContext : DbContext
 {
+    public MobilhomeDbContext()
+    {
+    }
+
     public MobilhomeDbContext(DbContextOptions<MobilhomeDbContext> options)
-      : base(options)
+        : base(options)
     {
     }
 
@@ -28,7 +30,6 @@ public partial class MobilhomeDbContext : DbContext
     public virtual DbSet<Reservation> Reservations { get; set; }
 
     public virtual DbSet<Vacationer> Vacationers { get; set; }
-
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -209,6 +210,9 @@ public partial class MobilhomeDbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("immat");
             entity.Property(e => e.MobilhomeId).HasColumnName("mobilhome_id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
             entity.Property(e => e.NumberPerson).HasColumnName("number_person");
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)

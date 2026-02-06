@@ -11,6 +11,7 @@ public static class MobilhomeDetailsDtoMapper
         {
             Id = mobilhome.Id,
             Name = mobilhome.Name,
+            OwnerId = mobilhome.OwnerId,
             IcalLink = mobilhome.IcalLink,
             Manager = new ManagerDto
             {
@@ -33,6 +34,7 @@ public static class MobilhomeDetailsDtoMapper
         return new ReservationDetailsDto
         {
             Id = reservation.Id,
+            Name = reservation.Name,
             StartDate = reservation.StartDate,
             EndDate = reservation.EndDate,
             Comment = reservation.Comment,

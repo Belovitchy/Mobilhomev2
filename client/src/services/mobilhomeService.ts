@@ -1,4 +1,4 @@
-import api from "./api";
+ import api from "./api";
 import type {
   TypeManager,
   TypeMobilhome,
@@ -13,8 +13,8 @@ export const getMobilhomesByOwner = async (id: number) => {
 };
 
 
-export const getMobilhomeDetail = async (ownerId: number, id:number, year:number) => {
-  const { data } = await api.get<TypeMobilhome>(`/api/owners/${ownerId}mobilhome/${id}/${year}`);
+export const getMobilhomeDetail = async (ownerId: number, id:number) => {
+  const { data } = await api.get<TypeMobilhome>(`/api/owners/${ownerId}/mobilhomes/${id}`);
   return data;
 };
 

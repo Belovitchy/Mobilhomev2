@@ -5,6 +5,7 @@ public class MobilhomeDetailsDto
 {
     public uint Id { get; set; }
     public string Name { get; set; } = null!;
+    public uint OwnerId { get; set; }
     public string? IcalLink { get; set; }
     public ManagerDto Manager { get; set; } = null!;
 
@@ -14,6 +15,8 @@ public class MobilhomeDetailsDto
 public class ReservationDetailsDto
 {
     public uint Id { get; set; }
+    public string Name { get; set; } = null!;
+
     public DateOnly StartDate { get; set; }
     public DateOnly EndDate { get; set; }
 

@@ -10,6 +10,7 @@ public static class ReservationMapper
         return new ReservationModel
         {
             Id = entity.Id,
+            Name = entity.Name,
             StartDate = entity.StartDate,
             EndDate = entity.EndDate,
             MobilhomeId = entity.MobilhomeId,

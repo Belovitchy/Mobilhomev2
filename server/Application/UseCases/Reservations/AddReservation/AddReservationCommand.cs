@@ -1,7 +1,9 @@
 namespace Application.UseCases.Reservations.AddReservation;
 
 public record AddReservationCommand(
-        DateOnly StartDate,
+
+    string Name,
+    DateOnly StartDate,
     DateOnly EndDate,
     string Color,
     string? Comment,

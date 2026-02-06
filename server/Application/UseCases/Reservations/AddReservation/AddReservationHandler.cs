@@ -29,6 +29,7 @@ public class AddReservationHandler
         var reservation = new Reservation
         {
             MobilhomeId = mobilhomeId,
+            Name = command.Name,
             StartDate = command.StartDate,
             EndDate = command.EndDate,
             Color = command.Color,

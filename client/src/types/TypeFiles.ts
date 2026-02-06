@@ -18,9 +18,11 @@ export interface TypeLink {
 export interface TypeMobilhome {
   id: number;
   name: string;
+  ownerId: number;
   icalLink: string;
   managerId:number  
-  manager:TypeManager  
+  manager:TypeManager 
+  reservations: TypeReservation[]
 }
 
 export interface TypeNewMobilhome {
@@ -43,4 +45,16 @@ export interface TypeManager {
   email: string;
   telephone: string;
   owner_id: number;
+}
+
+export interface TypeReservation{
+  id: number;
+  name:string;
+  color: string;
+  comment:string;
+  email:string;
+  endDate: Date;
+  startDate: Date;
+  numberPerson:number;
+  phone:string;
 }
