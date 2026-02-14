@@ -5,6 +5,8 @@ import PopModifMobilhome from "./PopModifMobilhome";
 import PopDeletMobilhome from "./PopDeletMobilhome";
 import EditBtn from "../ui/EditBtn";
 import DeleteBtn from "../ui/DeleteBtn";
+import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 
 function MobilhomeCard({
   id,
@@ -75,7 +77,14 @@ function MobilhomeCard({
             />
           </div>
         </div>
-        <p>Lien ical: {mobilhome.icalLink}</p>
+        <p className="flex flex-row items-center">
+          Lien ical:
+          {mobilhome.icalLink ? (
+            <FaCheck className=" ml-2 text-(--color-primary)" />
+          ) : (
+            <ImCross className="ml-2 text-(--color-secondary)" />
+          )}
+        </p>
         <h3>
           {mobilhome.manager.name} {mobilhome.manager.firstname}
         </h3>

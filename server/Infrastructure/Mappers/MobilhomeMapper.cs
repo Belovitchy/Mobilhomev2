@@ -32,6 +32,7 @@ public static class MobilhomeMapper
                 .Select(r => new ReservationEntity
                 {
                     Id = r.Id,
+                    Name = r.Name,
                     StartDate = r.StartDate,
                     EndDate = r.EndDate,
                     MobilhomeId = r.MobilhomeId,

@@ -54,10 +54,13 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(id);
   }, [location.pathname, navigate]);
 
+  const contextValue = useMemo(
+    () => ({ owner, setOwner, isConnected, setIsConnected, isAdmin }),
+    [owner, isConnected, isAdmin],
+  );
+
   return (
-    <OwnerContext.Provider
-      value={{ owner, setOwner, isConnected, setIsConnected, isAdmin }}
-    >
+    <OwnerContext.Provider value={contextValue}>
       {children}
     </OwnerContext.Provider>
   );
