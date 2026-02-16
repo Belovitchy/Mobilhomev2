@@ -5,8 +5,9 @@ import {
   useEffect,
   useState,
   useMemo,
+  useCallback,
 } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import type { TypeOwner } from "../types/TypeFiles";
 import { getMe, logout } from "../services/authService";
 import { isAdminFromToken } from "../utils/jwt";
@@ -23,8 +24,8 @@ const OwnerContext = createContext<OwnerContextType | undefined>(undefined);
 export function OwnerProvider({ children }: { children: ReactNode }) {
   const [owner, setOwner] = useState<TypeOwner | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+
   const navigate = useNavigate();
-  const location = useLocation();
 
   const token = localStorage.getItem("token");
 
@@ -33,26 +34,25 @@ export function OwnerProvider({ children }: { children: ReactNode }) {
     return isAdminFromToken(token);
   }, [token]);
 
+  const checkToken = useCallback(async () => {
+    try {
+      const me = await getMe();
+      // On utilise la fonction de mise à jour pour éviter le re-rendu si identique
+      setOwner((prev) => (prev?.id === me.id ? prev : me));
+      setIsConnected(true);
+    } catch {
+      logout();
+      setOwner(null);
+      setIsConnected(false);
+      navigate("/");
+    }
+  }, [navigate]);
+
   useEffect(() => {
-    if (location.pathname === "/") return;
-
-    const checkToken = async () => {
-      try {
-        const me = await getMe();
-        setOwner(me);
-        setIsConnected(true);
-      } catch {
-        logout();
-        setOwner(null);
-        setIsConnected(false);
-        if (location.pathname !== "/") navigate("/");
-      }
-    };
-
     checkToken();
     const id = setInterval(checkToken, 30 * 60 * 1000);
     return () => clearInterval(id);
-  }, [location.pathname, navigate]);
+  }, [checkToken]);
 
   const contextValue = useMemo(
     () => ({ owner, setOwner, isConnected, setIsConnected, isAdmin }),

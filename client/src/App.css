@@ -19,3 +19,17 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Largeur très fine */
+  /* background-color: var(--color-primary); */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Fond invisible */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary); /* Couleur grise translucide */
+  border-radius: 20px; /* Bords très arrondis style mobile */
+}

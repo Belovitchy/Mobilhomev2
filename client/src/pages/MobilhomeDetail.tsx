@@ -204,7 +204,13 @@ function MobilhomeDetail() {
   }, [mobilhomeId, owner, isInvalidId, navigate]);
 
   if (!id || isInvalidId) {
-    return <Navigate to="/notfound" />;
+    navigate("/notfound");
+    return;
+  }
+
+  if (!owner) {
+    navigate("/");
+    return;
   }
 
   return (
@@ -265,6 +271,9 @@ function MobilhomeDetail() {
           {/* tableau pour boucler sur les trois */}
           {calendars.map((monthView) => (
             <MonthCalendar
+              ownerId={owner?.id}
+              mobilhomeId={mobilhomeId}
+              allResas={reservations}
               key={monthView.label}
               monthView={monthView}
               month={monthView.thisMonth}
