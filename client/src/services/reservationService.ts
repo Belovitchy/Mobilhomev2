@@ -1,4 +1,4 @@
-import type { TypeReservation, TypeNewReservation } from "../types/TypeFiles";
+import type { TypeNewReservation } from "../types/TypeFiles";
 import api from "./api";
 
 export const addResa = async (

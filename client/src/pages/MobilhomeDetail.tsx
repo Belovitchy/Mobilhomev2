@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getMobilhomeDetail } from "../services/mobilhomeService";
 import { useOwner } from "../context/ownerContext";
 import type { TypeMobilhome, TypeReservation } from "../types/TypeFiles";
