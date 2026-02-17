@@ -43,6 +43,7 @@ appsettings.json
 #================================#
 # Dependencies
 /client/node_modules/
+node_modules/
 
 # Build outputs
 /client/dist/

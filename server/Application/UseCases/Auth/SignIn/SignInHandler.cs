@@ -17,7 +17,7 @@ public class SignInHandler
         _passwordHasher = passwordHasher;
     }
 
-    public async Task Handle(SignInCommand command)
+    public async Task<Owner> Handle(SignInCommand command)
     {
         var existing = await _ownerRepository.GetByEmailAsync(command.Email);
         if (existing != null)
@@ -30,9 +30,9 @@ public class SignInHandler
             Name = command.Name,
             Email = command.Email,
             Password = hash,
-            IsAdmin = false
+            IsAdmin = command.IsAdmin
         };
 
-        await _ownerRepository.AddAsync(owner);
+        return await _ownerRepository.AddAsync(owner);
     }
 }

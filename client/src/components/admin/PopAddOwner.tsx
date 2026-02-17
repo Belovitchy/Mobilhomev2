@@ -2,42 +2,39 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import ValidBtn from "../ui/ValidBtn";
 import PopCard from "../ui/PopCard";
+import { signIn } from "../../services/adminService";
+import type { TypeOwner } from "../../types/TypeFiles";
+import { useOwner } from "../../context/ownerContext";
 
-function PopAddOwner({ onClose }: { onClose: () => void }) {
+function PopAddOwner({
+  onClose,
+  setAllOwners,
+}: {
+  onClose: () => void;
+  setAllOwners: React.Dispatch<React.SetStateAction<TypeOwner[]>>;
+}) {
   const [showPassword, setShowPassword] = useState(false);
+  const { owner } = useOwner();
 
   async function postAddOwner(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
     const name = formData.get("name") as string;
     const isAdmin = formData.get("isAdmin") === "true";
+
     console.log("isadmin:", isAdmin);
+
     if (password !== confirmPassword) {
       alert("Les mots de passe ne correspondent pas");
       return;
     }
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/owner/admin/owner`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token") || "",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          name: name,
-          isAdmin: isAdmin,
-        }),
-      },
-    );
-    if (response.ok) {
-      alert("Propriétaire ajouté avec succès");
-    }
+    if (!owner) return;
+    const newOwner = await signIn(owner.id, name, email, password, isAdmin);
+    setAllOwners((prev) => [...prev, newOwner]);
     onClose();
   }
 
