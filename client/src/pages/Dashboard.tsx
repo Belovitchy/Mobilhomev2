@@ -109,7 +109,12 @@ function Dashboard() {
               className="flex flex-row justify-between items-center"
               key={link.id}
             >
-              <a href={link.url} target="_blank" rel="noopener noreferrer">
+              <a
+                className="underline lg:no-underline lg:hover:underline lg:hover:text-(--color-primary) transition-all"
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {link.name}
               </a>
               <div className="flex flex-row gap-2">

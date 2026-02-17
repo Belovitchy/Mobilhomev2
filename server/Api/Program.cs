@@ -21,6 +21,8 @@ using Application.UseCases.Links.UpdateLink;
 using System.Security.Claims;
 using Application.UseCases.Admin.GetAllOwners;
 using Application.UseCases.Admin.DeleteOwner;
+using Application.UseCases.Mobilhomes.GetMobilhomeDetailById;
+using Application.UseCases.Reservations.AddReservation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +86,9 @@ builder.Services.AddScoped<DeleteLinkHandler>();
 builder.Services.AddScoped<UpdateLinkHandler>();
 builder.Services.AddScoped<GetAllOwnersHandler>();
 builder.Services.AddScoped<DeleteOwnerHandler>();
+builder.Services.AddScoped<GetMobilhomeDetailByIdHandler>();
+builder.Services.AddScoped<AddReservationHandler>();
+
 
 
 builder.Services.AddSwaggerGen(c =>

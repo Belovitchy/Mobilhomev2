@@ -5,6 +5,9 @@ import PopModifMobilhome from "./PopModifMobilhome";
 import PopDeletMobilhome from "./PopDeletMobilhome";
 import EditBtn from "../ui/EditBtn";
 import DeleteBtn from "../ui/DeleteBtn";
+import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+import CalendarBtn from "../ui/CalendarBtn";
 
 function MobilhomeCard({
   id,
@@ -58,8 +61,10 @@ function MobilhomeCard({
 
       <section className="relative bg-(--color-cards) rounded-lg p-4 shadow-md min-w-80 min-h-60 flex flex-col justify-between">
         <div className="flex flex-row justify-between">
-          <div className="absolute bottom-2 right-4 rounded-lg border-2 border-(--color-primary) p-2 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)">
-            <Link to={`/dashboard/mobilhomes/${mobilhome.id}`}>Détails</Link>
+          <div className="absolute bottom-2 right-4 ">
+            <Link to={`/dashboard/mobilhomes/${mobilhome.id}`}>
+              <CalendarBtn />
+            </Link>
           </div>
           <h2 className="text-lg font-semibold">{mobilhome.name}</h2>
           <div className="flex flex-row gap-2">
@@ -75,7 +80,14 @@ function MobilhomeCard({
             />
           </div>
         </div>
-        <p>Lien ical: {mobilhome.icalLink}</p>
+        <p className="flex flex-row items-center">
+          Lien ical:
+          {mobilhome.icalLink ? (
+            <FaCheck className=" ml-2 text-(--color-primary)" />
+          ) : (
+            <ImCross className="ml-2 text-(--color-secondary)" />
+          )}
+        </p>
         <h3>
           {mobilhome.manager.name} {mobilhome.manager.firstname}
         </h3>

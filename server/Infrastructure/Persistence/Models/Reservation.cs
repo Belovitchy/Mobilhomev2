@@ -29,6 +29,8 @@ public partial class Reservation
 
     public string? Phone { get; set; }
 
+    public string Name { get; set; } = null!;
+
     public virtual Mobilhome Mobilhome { get; set; } = null!;
 
     public virtual ICollection<Vacationer> Vacationers { get; set; } = new List<Vacationer>();

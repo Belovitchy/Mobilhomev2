@@ -4,8 +4,7 @@ using Infrastructure.Persistence;
 using Infrastructure.Mappers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Interfaces;
-
+namespace Infrastructure.Persistence.Repositories;
 
 public class linkRepository : ILinkRepository
 {

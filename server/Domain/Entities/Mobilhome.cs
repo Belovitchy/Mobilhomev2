@@ -9,4 +9,5 @@ public class Mobilhome
     public string? IcalLink { get; set; }
 
     public Manager Manager { get; set; } = null!;
+    public List<Reservation> Reservations { get; set; } = new();
 }

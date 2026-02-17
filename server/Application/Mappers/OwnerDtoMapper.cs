@@ -3,7 +3,7 @@ using Domain.Entities;
 
 namespace Application.Mappers;
 
-public static class OwnerMapper
+public static class OwnerDtoMapper
 {
     public static OwnerDto ToDto(Owner owner)
     {
