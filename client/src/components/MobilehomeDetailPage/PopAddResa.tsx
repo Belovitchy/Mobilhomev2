@@ -4,15 +4,21 @@ import type { TypeReservation } from "../../types/TypeFiles";
 import { addResa } from "../../services/reservationService";
 
 function PopAddResa({
+  month,
+  year,
   onClose,
   ownerId,
   mobilhomeId,
   allResas,
+  setReservations,
 }: {
+  month: number;
+  year: number;
   onClose: () => void;
   ownerId: number;
   mobilhomeId: number;
   allResas: TypeReservation[];
+  setReservations: React.Dispatch<React.SetStateAction<TypeReservation[]>>;
 }) {
   async function postAddResa(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -66,6 +72,8 @@ function PopAddResa({
     }
     const newResa = await addResa(ownerId, mobilhomeId, res);
     console.log("newresa", newResa);
+    setReservations([...allResas, newResa]);
+    onClose();
   }
 
   return (
@@ -82,6 +90,7 @@ function PopAddResa({
               type="date"
               id="startdDate"
               name="startDate"
+              defaultValue={`${year}-${String(month + 1).padStart(2, "0")}-01`}
               required
             />
           </div>
@@ -92,6 +101,7 @@ function PopAddResa({
               type="date"
               id="endDate"
               name="endDate"
+              defaultValue={`${year}-${String(month + 1).padStart(2, "0")}-01`}
               required
             />
           </div>

@@ -15,7 +15,7 @@ function Mobilhome() {
     if (!owner) return;
     const axiosMobilhomeByOwner = async () => {
       const data = await getMobilhomesByOwner(owner.id);
-      console.log("mes mobilhome:", data);
+      // console.log("mes mobilhome:", data);
       setOwnerMobilhome(data);
     };
     axiosMobilhomeByOwner();
@@ -44,7 +44,7 @@ function Mobilhome() {
       {popAddMobilhome ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopAddMobilhome
-            id={owner!.id}
+            id={owner.id}
             onClose={() => setPopAddMobilhome(false)}
             setOwnerMobilhome={setOwnerMobilhome}
           />
@@ -65,7 +65,7 @@ function Mobilhome() {
               onDelete={handleMobilhomeDelete}
               onUpdated={handleMobilhomeUpdate}
               mobilhome={mobilhome}
-              id={owner!.id}
+              id={owner.id}
               ownerMobilhome={ownerMobilhome}
             />
           </div>

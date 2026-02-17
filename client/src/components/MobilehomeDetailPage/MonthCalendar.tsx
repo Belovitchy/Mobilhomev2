@@ -31,6 +31,7 @@ function MonthCalendar({
   ownerId,
   mobilhomeId,
   allResas,
+  setReservations,
   monthView,
   month,
   year,
@@ -38,15 +39,15 @@ function MonthCalendar({
   ownerId: number;
   mobilhomeId: number;
   allResas: TypeReservation[];
+  setReservations: React.Dispatch<React.SetStateAction<TypeReservation[]>>;
   monthView: MonthCalendarProps;
   month: number;
   year: number;
 }) {
   const [popAddResa, setPopAddResa] = useState(false);
 
-  function handleAddRes(month: number, year: number) {
+  function handleAddRes() {
     setPopAddResa(true);
-    console.log(month, year);
   }
   console.log("monthView", monthView);
   return (
@@ -54,9 +55,12 @@ function MonthCalendar({
       {popAddResa && ownerId ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopAddResa
+            month={month}
+            year={year}
             ownerId={ownerId}
             mobilhomeId={mobilhomeId}
             allResas={allResas}
+            setReservations={setReservations}
             onClose={() => setPopAddResa(false)}
           />
         </div>
@@ -107,7 +111,7 @@ function MonthCalendar({
           <div>
             <h2 className="h-14 flex flex-row justify-between items-center text-xl mb-4 bg-(--color-cards) p-2 rounded-lg">
               Réservations {monthView.label.toLocaleLowerCase()} {year}
-              <AddBtn onClick={() => handleAddRes(month, year)} />
+              <AddBtn onClick={() => handleAddRes()} />
             </h2>
             {monthView.data.monthResas.length > 0 ? (
               <div className="flex flex-col gap-2 justify-center ">

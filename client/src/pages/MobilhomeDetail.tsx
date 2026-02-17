@@ -274,6 +274,7 @@ function MobilhomeDetail() {
               ownerId={owner?.id}
               mobilhomeId={mobilhomeId}
               allResas={reservations}
+              setReservations={setReservations}
               key={monthView.label}
               monthView={monthView}
               month={monthView.thisMonth}
