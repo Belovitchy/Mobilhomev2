@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Infrastructure.Persistence.Repositories;
@@ -26,4 +27,23 @@ public class ReservationRepository : IReservationRepository
 
         return reservation;
     }
+
+    public async Task<Reservation?> GetByIdAsync(uint id)
+    {
+        var model = await _db.Reservations.FirstOrDefaultAsync(r => r.Id == id);
+
+        if (model == null) return null;
+
+        return ReservationMapper.ToEntity(model);
+    }
+
+    public async Task DeleteAsync(uint id)
+    {
+        var model = await _db.Reservations.FindAsync(id);
+
+        if (model == null) return;
+        _db.Reservations.Remove(model);
+        await _db.SaveChangesAsync();
+    }
+
 }

@@ -24,4 +24,25 @@ public static class ReservationMapper
             SibluResa = entity.SibluResa
         };
     }
+
+    public static ReservationEntity ToEntity(ReservationModel model)
+    {
+        return new ReservationEntity
+        {
+            Id = model.Id,
+            Name = model.Name,
+            StartDate = model.StartDate,
+            EndDate = model.EndDate,
+            MobilhomeId = model.MobilhomeId,
+            Comment = model.Comment,
+            Color = model.Color,
+            NumberPerson = model.NumberPerson,
+            Funpass = model.Funpass,
+            Email = model.Email,
+            Phone = model.Phone,
+            Immat = model.Immat,
+            SibluResa = model.SibluResa
+        };
+
+    }
 }

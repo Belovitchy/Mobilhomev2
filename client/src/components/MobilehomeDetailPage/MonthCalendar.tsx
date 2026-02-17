@@ -4,6 +4,7 @@ import EditBtn from "../ui/EditBtn";
 import AddBtn from "../ui/AddBtn";
 import { memo, useState } from "react";
 import PopAddResa from "./PopAddResa";
+import { deleteResa } from "../../services/reservationService";
 
 type DayCell = {
   date: Date;
@@ -21,10 +22,6 @@ interface MonthCalendarProps {
     monthResas: TypeReservation[];
   };
   label: string;
-}
-
-function handleDeleteResa(id: number) {
-  console.log(id);
 }
 
 function MonthCalendar({
@@ -50,6 +47,18 @@ function MonthCalendar({
     setPopAddResa(true);
   }
   console.log("monthView", monthView);
+
+  async function handleDeleteResa(
+    ownerId: number,
+    mobilhomeId: number,
+    resaId: number,
+  ) {
+    await deleteResa(ownerId, mobilhomeId, resaId);
+    setReservations((prevResas) =>
+      prevResas.filter((resa) => resa.id !== resaId),
+    );
+  }
+
   return (
     <>
       {popAddResa && ownerId ? (
@@ -128,7 +137,11 @@ function MonthCalendar({
                     </div>
                     <div className="flex flex-row gap-2">
                       <EditBtn onClick={() => console.log("clic")} />
-                      <DeleteBtn onClick={() => handleDeleteResa(r.id)} />
+                      <DeleteBtn
+                        onClick={() =>
+                          handleDeleteResa(ownerId, mobilhomeId, r.id)
+                        }
+                      />
                     </div>
                   </div>
                 ))}

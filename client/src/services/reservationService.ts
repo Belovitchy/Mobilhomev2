@@ -19,7 +19,7 @@ export const deleteResa = async (
 	resaId: number,
 ) => {
 	const res = await api.delete<TypeReservation>(
-		`api/owners/${ownerId}/mobilhomes/${mobilhomeId}/reservations/${resaId}}`,
+		`api/owners/${ownerId}/mobilhomes/${mobilhomeId}/reservations/${resaId}`,
 	);
 	return res.data;
 };
