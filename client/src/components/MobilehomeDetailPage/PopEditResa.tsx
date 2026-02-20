@@ -1,28 +1,26 @@
+import type { TypeReservation } from "../../types/TypeFiles";
 import PopCard from "../ui/PopCard";
 import ValidBtn from "../ui/ValidBtn";
-import type { TypeReservation } from "../../types/TypeFiles";
-import { addResa } from "../../services/reservationService";
+import { modifResa } from "../../services/reservationService";
 
-function PopAddResa({
-  month,
-  year,
-  onClose,
+function PopEditResa({
+  setReservations,
   ownerId,
   mobilhomeId,
   allResas,
-  setReservations,
+  onClose,
+  resa,
 }: {
-  month: number;
-  year: number;
-  onClose: () => void;
+  setReservations: React.Dispatch<React.SetStateAction<TypeReservation[]>>;
   ownerId: number;
   mobilhomeId: number;
   allResas: TypeReservation[];
-  setReservations: React.Dispatch<React.SetStateAction<TypeReservation[]>>;
+  onClose: () => void;
+  resa: TypeReservation;
 }) {
-  async function postAddResa(e: React.FormEvent<HTMLFormElement>) {
+  async function postModifResa(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // console.log("allResas", allResas);
+    console.log("postEditResa");
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const startDate = formData.get("startDate") as string;
@@ -35,8 +33,9 @@ function PopAddResa({
     const phone = formData.get("phone") as string;
     const immat = formData.get("immat") as string;
     const sibluResa = formData.get("sibluResa") as string;
-    const thisMobilhomeId = mobilhomeId;
+
     const res = {
+      id: resa.id,
       name: name,
       startDate: startDate,
       endDate: endDate,
@@ -48,7 +47,7 @@ function PopAddResa({
       phone: phone,
       immat: immat,
       sibluResa: sibluResa,
-      mobilhomeId: thisMobilhomeId,
+      mobilhomeId: mobilhomeId,
     };
     console.log("res", res);
 
@@ -59,8 +58,9 @@ function PopAddResa({
       console.log("erreur date");
       return;
     }
+    const allWithoutThisEdit = allResas.filter((r) => r.id !== resa.id);
 
-    const isOverlapping = allResas.some((res) => {
+    const isOverlapping = allWithoutThisEdit.some((res) => {
       const resStart = new Date(res.startDate).setHours(12, 0, 0, 0);
       const resEnd = new Date(res.endDate).setHours(12, 0, 0, 0);
       const newStart = new Date(startDate).setHours(12, 0, 0, 0);
@@ -72,16 +72,20 @@ function PopAddResa({
       console.log("erreur chevauche");
       return;
     }
-    const newResa = await addResa(ownerId, mobilhomeId, res);
-    console.log("newresa", newResa);
-    setReservations([...allResas, newResa]);
+    //service puttResa
+    const updateResa = await modifResa(ownerId, mobilhomeId, resa.id, res);
+    console.log("updateResa", updateResa);
+    setReservations((prevResas) => {
+      return prevResas.map((r) => (r.id === resa.id ? updateResa : r));
+    });
+
     onClose();
   }
 
   return (
-    <PopCard title="Ajouter une réservation" onClose={() => onClose()}>
+    <PopCard title="Modifier une réservation" onClose={onClose}>
       <form
-        onSubmit={(e) => postAddResa(e)}
+        onSubmit={(e) => postModifResa(e)}
         className="flex flex-col gap-4 p-4"
       >
         <div className="flex flex-row justify-between gap-2">
@@ -90,9 +94,11 @@ function PopAddResa({
             <input
               className="bg-(--color-background) text-xs p-2 max-w-28 rounded-lg"
               type="date"
-              id="startDate"
+              id="startdDate"
               name="startDate"
-              defaultValue={`${year}-${String(month + 1).padStart(2, "0")}-01`}
+              defaultValue={
+                new Date(resa.startDate).toISOString().split("T")[0]
+              }
               required
             />
           </div>
@@ -103,7 +109,7 @@ function PopAddResa({
               type="date"
               id="endDate"
               name="endDate"
-              defaultValue={`${year}-${String(month + 1).padStart(2, "0")}-01`}
+              defaultValue={new Date(resa.endDate).toISOString().split("T")[0]}
               required
             />
           </div>
@@ -115,6 +121,7 @@ function PopAddResa({
             type="text"
             id="name"
             name="name"
+            defaultValue={resa.name}
             required
           />
         </div>
@@ -126,7 +133,7 @@ function PopAddResa({
               type="color"
               id="color"
               name="color"
-              defaultValue="#60b79d"
+              defaultValue={resa.color}
               required
             />
           </div>
@@ -137,6 +144,7 @@ function PopAddResa({
               type="number"
               id="numberPerson"
               name="numberPerson"
+              defaultValue={resa.numberPerson}
             />
           </div>
         </div>
@@ -147,6 +155,7 @@ function PopAddResa({
             type="text"
             id="email"
             name="email"
+            defaultValue={resa.email}
           />
         </div>
         <div>
@@ -156,6 +165,7 @@ function PopAddResa({
             type="text"
             id="phone"
             name="phone"
+            defaultValue={resa.phone}
           />
         </div>
         <div className="flex flex-row justify-between gap-2 items-center">
@@ -166,6 +176,7 @@ function PopAddResa({
               type="text"
               id="immat"
               name="immat"
+              defaultValue={resa.immat}
             />
           </div>
           <div className="flex flex-row  gap-2">
@@ -186,6 +197,7 @@ function PopAddResa({
               type="checkbox"
               id="funpass"
               name="funpass"
+              defaultValue={resa.funpass ? "on" : "off"}
             />
           </div>
         </div>
@@ -195,6 +207,7 @@ function PopAddResa({
             className="bg-(--color-background) w-full p-2 rounded-lg mx-auto"
             id="comment"
             name="comment"
+            defaultValue={resa.comment}
           />
         </div>
         <div className="flex flex-row justify-center gap-2 items-center">
@@ -204,6 +217,7 @@ function PopAddResa({
             type="text"
             id="sibluResa"
             name="sibluResa"
+            defaultValue={resa.sibluResa}
           />
         </div>
         <ValidBtn type="submit" />
@@ -212,4 +226,4 @@ function PopAddResa({
   );
 }
 
-export default PopAddResa;
+export default PopEditResa;

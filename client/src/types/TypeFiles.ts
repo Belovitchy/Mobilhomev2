@@ -52,10 +52,14 @@ export interface TypeReservation {
 	color: string;
 	comment: string;
 	email: string;
-	endDate: Date;
-	startDate: Date;
+	endDate: string;
+	startDate: string;
 	numberPerson: number;
+	funpass: number;
+	mobilhomeId: number;
+	immat: string;
 	phone: string;
+	sibluResa: string;
 }
 
 export interface TypeNewReservation {
@@ -66,5 +70,7 @@ export interface TypeNewReservation {
 	endDate: string;
 	startDate: string;
 	numberPerson: number;
+	funpass: number;
+	mobilhomeId: number;
 	phone: string;
 }

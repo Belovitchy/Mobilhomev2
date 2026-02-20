@@ -6,6 +6,7 @@ import type { TypeMobilhome, TypeReservation } from "../types/TypeFiles";
 import { useNavigate } from "react-router";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import MonthCalendar from "../components/MobilehomeDetailPage/MonthCalendar";
+import LoadingSpinner from "../components/ui/loadingSpinner";
 
 type DayCell = {
   date: Date;
@@ -86,6 +87,7 @@ function applyReservations(
   const normalizedMonth = (monthIndex + 12) % 12;
   const filteredRes: TypeReservation[] = [];
   // 1. On boucle sur chaque réservation reçue
+  console.log("reservations", reservations);
   reservations.forEach((res) => {
     const start = new Date(res.startDate);
     const end = new Date(res.endDate);
@@ -141,7 +143,7 @@ function MobilhomeDetail() {
   //recupérer id mobilhome de l'URL
   const { id } = useParams<{ id: string }>();
 
-  const mobilhomeId = id ? Number(id) : null;
+  const mobilhomeId = Number(id);
   const isInvalidId = mobilhomeId === null || Number.isNaN(mobilhomeId);
 
   const calendars = useMemo(() => {
@@ -203,14 +205,8 @@ function MobilhomeDetail() {
     axiosMobilhomeDetail();
   }, [mobilhomeId, owner, isInvalidId, navigate]);
 
-  if (!id || isInvalidId) {
-    navigate("/notfound");
-    return;
-  }
-
-  if (!owner) {
-    navigate("/");
-    return;
+  if (!id || isInvalidId || !owner) {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -269,9 +265,10 @@ function MobilhomeDetail() {
       <div className="w-full max-w-4xl mx-auto">
         <div className="flex flex-col gap-10">
           {/* tableau pour boucler sur les trois */}
+
           {calendars.map((monthView) => (
             <MonthCalendar
-              ownerId={owner?.id}
+              ownerId={owner.id}
               mobilhomeId={mobilhomeId}
               allResas={reservations}
               setReservations={setReservations}

@@ -24,6 +24,8 @@ using Application.UseCases.Admin.DeleteOwner;
 using Application.UseCases.Mobilhomes.GetMobilhomeDetailById;
 using Application.UseCases.Reservations.AddReservation;
 using Application.UseCases.Reservations.DeleteReservation;
+using Application.UseCases.Reservations.UpdateReservation;
+
 
 
 
@@ -93,6 +95,8 @@ builder.Services.AddScoped<DeleteOwnerHandler>();
 builder.Services.AddScoped<GetMobilhomeDetailByIdHandler>();
 builder.Services.AddScoped<AddReservationHandler>();
 builder.Services.AddScoped<DeleteReservationHandler>();
+builder.Services.AddScoped<UpdateReservationHandler>();
+
 
 
 

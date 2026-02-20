@@ -1,5 +1,7 @@
+using Application.Mappers;
 using Application.UseCases.Reservations.AddReservation;
 using Application.UseCases.Reservations.DeleteReservation;
+using Application.UseCases.Reservations.UpdateReservation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,14 +12,15 @@ public class ReservationsController : ControllerBase
 {
     private readonly AddReservationHandler _addReservationHandler;
     private readonly DeleteReservationHandler _deleteReservationHandler;
+    private readonly UpdateReservationHandler _updateReservationHandler;
 
 
-
-    public ReservationsController(AddReservationHandler addReservationHandler, DeleteReservationHandler deleteReservationHandler)
+    public ReservationsController(AddReservationHandler addReservationHandler, DeleteReservationHandler deleteReservationHandler, UpdateReservationHandler updateReservationHandler)
     {
         _deleteReservationHandler = deleteReservationHandler;
         _addReservationHandler = addReservationHandler;
         _addReservationHandler = addReservationHandler;
+        _updateReservationHandler = updateReservationHandler;
     }
 
     [Authorize]
@@ -48,4 +51,19 @@ public class ReservationsController : ControllerBase
 
         return NoContent();
     }
+
+    [Authorize]
+    [HttpPut("{resaId:int}")]
+    public async Task<IActionResult> Update(uint ownerId, uint mobilhomeId, uint resaId, [FromBody] UpdateReservationCommand command)
+    {
+        var ownerIdByToken = uint.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (ownerId != ownerIdByToken)
+            return Forbid();
+
+        var updated = await _updateReservationHandler.Handle(command, ownerIdByToken, mobilhomeId, resaId);
+
+        return Ok(ReservationDtoMapper.ToDto(updated));
+    }
+
 }

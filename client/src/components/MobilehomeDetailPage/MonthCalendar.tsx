@@ -5,6 +5,7 @@ import AddBtn from "../ui/AddBtn";
 import { memo, useState } from "react";
 import PopAddResa from "./PopAddResa";
 import { deleteResa } from "../../services/reservationService";
+import PopEditResa from "./PopEditResa";
 
 type DayCell = {
   date: Date;
@@ -42,11 +43,13 @@ function MonthCalendar({
   year: number;
 }) {
   const [popAddResa, setPopAddResa] = useState(false);
+  const [popEditResa, setPopEditResa] = useState(false);
+  const [editResa, setEditResa] = useState<TypeReservation>();
 
   function handleAddRes() {
     setPopAddResa(true);
   }
-  console.log("monthView", monthView);
+  // console.log("monthView", monthView);
 
   async function handleDeleteResa(
     ownerId: number,
@@ -59,8 +62,25 @@ function MonthCalendar({
     );
   }
 
+  function handleEditResa(resa: TypeReservation) {
+    setPopEditResa(true);
+    setEditResa(resa);
+  }
+
   return (
     <>
+      {popEditResa && editResa ? (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
+          <PopEditResa
+            setReservations={setReservations}
+            ownerId={ownerId}
+            allResas={allResas}
+            mobilhomeId={mobilhomeId}
+            resa={editResa}
+            onClose={() => setPopEditResa(false)}
+          />
+        </div>
+      ) : null}
       {popAddResa && ownerId ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopAddResa
@@ -136,7 +156,8 @@ function MonthCalendar({
                       <br /> au {new Date(r.endDate).toLocaleDateString()}
                     </div>
                     <div className="flex flex-row gap-2">
-                      <EditBtn onClick={() => console.log("clic")} />
+                      <EditBtn onClick={() => handleEditResa(r)} />
+
                       <DeleteBtn
                         onClick={() =>
                           handleDeleteResa(ownerId, mobilhomeId, r.id)

@@ -3,30 +3,33 @@ import PopCard from "../ui/PopCard";
 import { modifLink } from "../../services/linksService";
 import { useOwner } from "../../context/ownerContext";
 import ValidBtn from "../ui/ValidBtn";
+import LoadingSpinner from "../ui/loadingSpinner";
 
 function PopModifLink({
   link,
   id,
   onClose,
 }: {
-  link: TypeLink | null;
+  link: TypeLink;
   id: number;
   onClose: () => void;
 }) {
   const { setOwner } = useOwner();
+
+  if (!link) return <LoadingSpinner />;
 
   async function postModifLink(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const url = formData.get("url") as string;
-    const updateLink = await modifLink(id, link!.id, name, url);
+    const updateLink = await modifLink(id, link.id, name, url);
     console.log(modifLink);
     setOwner((prevOwner) => {
       if (!prevOwner) return null;
       return {
         ...prevOwner,
-        links: prevOwner.links.map((l) => (l.id === link!.id ? updateLink : l)),
+        links: prevOwner.links.map((l) => (l.id === link.id ? updateLink : l)),
       };
     });
 

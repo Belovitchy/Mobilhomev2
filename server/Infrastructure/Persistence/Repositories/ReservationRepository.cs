@@ -46,4 +46,24 @@ public class ReservationRepository : IReservationRepository
         await _db.SaveChangesAsync();
     }
 
+    public async Task UpdateAsync(Reservation reservation)
+    {
+        var model = await _db.Reservations.FirstOrDefaultAsync(r => r.Id == reservation.Id);
+
+        if (model == null) return;
+
+        model.Name = reservation.Name;
+        model.StartDate = reservation.StartDate;
+        model.EndDate = reservation.EndDate;
+        model.Color = reservation.Color;
+        model.Comment = reservation.Comment;
+        model.NumberPerson = reservation.NumberPerson;
+        model.Funpass = reservation.Funpass;
+        model.Email = reservation.Email;
+        model.Phone = reservation.Phone;
+        model.Immat = reservation.Immat;
+        model.SibluResa = reservation.SibluResa;
+
+        await _db.SaveChangesAsync();
+    }
 }

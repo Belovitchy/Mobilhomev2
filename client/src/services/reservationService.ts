@@ -23,3 +23,16 @@ export const deleteResa = async (
 	);
 	return res.data;
 };
+
+export const modifResa = async (
+	ownerId: number,
+	mobilhomeId: number,
+	resaId: number,
+	resa: TypeReservation,
+) => {
+	const res = await api.put<TypeReservation>(
+		`api/owners/${ownerId}/mobilhomes/${mobilhomeId}/reservations/${resaId}`,
+		resa,
+	);
+	return res.data;
+};
