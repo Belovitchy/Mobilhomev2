@@ -1,4 +1,4 @@
-import type { TypeReservation } from "../../types/TypeFiles";
+import type { TypeReservation, TypeVacationer } from "../../types/TypeFiles";
 import DeleteBtn from "../ui/DeleteBtn";
 import EditBtn from "../ui/EditBtn";
 import AddBtn from "../ui/AddBtn";
@@ -7,6 +7,7 @@ import PopAddResa from "./PopAddResa";
 import { deleteResa } from "../../services/reservationService";
 import PopEditResa from "./PopEditResa";
 import PopDeleteResa from "./PopDeleteResa";
+import { FaPersonCirclePlus } from "react-icons/fa6";
 
 type DayCell = {
   date: Date;
@@ -48,6 +49,7 @@ function MonthCalendar({
   const [editResa, setEditResa] = useState<TypeReservation>();
   const [popDeleteResa, setPopDeleteResa] = useState(false);
   const [resaToDelete, setResaToDelete] = useState<TypeReservation>();
+  const [popVacationer, setPopVacationer] = useState(false);
 
   function handleAddRes() {
     setPopAddResa(true);
@@ -74,6 +76,11 @@ function MonthCalendar({
   function handleEditResa(resa: TypeReservation) {
     setPopEditResa(true);
     setEditResa(resa);
+  }
+
+  function showVacationer(vacationers: TypeVacationer) {
+    setPopVacationer(true);
+    console.log("vacationer", vacationers);
   }
 
   return (
@@ -170,6 +177,12 @@ function MonthCalendar({
                     key={r.id}
                     style={{ borderColor: r.color }}
                   >
+                    <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
+                      <FaPersonCirclePlus
+                        onClick={() => showVacationer(r.vacationers)}
+                        className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
+                      />
+                    </div>
                     <div className="text-base m-auto">
                       {r.name.toLocaleUpperCase()} du{" "}
                       {new Date(r.startDate).toLocaleDateString()}

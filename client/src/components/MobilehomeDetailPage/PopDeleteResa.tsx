@@ -17,8 +17,10 @@ function PopDeleteResa({
       title={`Supprimer la réservation ${resaToDelete.name} ?`}
       onClose={onClose}
     >
-      <WarningValidBtn type="button" onValid={confirmDeleteResa} />
-      <UndoBtn onClose={onClose} />
+      <div className="flex flex-col gap-2">
+        <WarningValidBtn type="button" onValid={confirmDeleteResa} />
+        <UndoBtn onClose={onClose} />
+      </div>
     </PopCard>
   );
 }

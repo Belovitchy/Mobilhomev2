@@ -1,5 +1,4 @@
 using Infrastructure;
-
 using Microsoft.EntityFrameworkCore;
 using Application.UseCases.Mobilhomes.GetMobilhomesByOwner;
 using Application.UseCases.Managers.GetManagersByOwner;
@@ -25,7 +24,7 @@ using Application.UseCases.Mobilhomes.GetMobilhomeDetailById;
 using Application.UseCases.Reservations.AddReservation;
 using Application.UseCases.Reservations.DeleteReservation;
 using Application.UseCases.Reservations.UpdateReservation;
-
+using Application.UseCases.Vacationers.AddVacationers;
 
 
 
@@ -96,9 +95,7 @@ builder.Services.AddScoped<GetMobilhomeDetailByIdHandler>();
 builder.Services.AddScoped<AddReservationHandler>();
 builder.Services.AddScoped<DeleteReservationHandler>();
 builder.Services.AddScoped<UpdateReservationHandler>();
-
-
-
+builder.Services.AddScoped<AddVacationersHandler>();
 
 
 builder.Services.AddSwaggerGen(c =>

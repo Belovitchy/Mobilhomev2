@@ -48,6 +48,7 @@ function PopEditResa({
       immat: immat,
       sibluResa: sibluResa,
       mobilhomeId: mobilhomeId,
+      vacationers: resa.vacationers,
     };
     console.log("res", res);
 

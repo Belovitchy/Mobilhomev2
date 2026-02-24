@@ -60,6 +60,7 @@ export interface TypeReservation {
 	immat: string;
 	phone: string;
 	sibluResa: string;
+	vacationers: TypeVacationer;
 }
 
 export interface TypeNewReservation {
@@ -73,4 +74,11 @@ export interface TypeNewReservation {
 	funpass: number;
 	mobilhomeId: number;
 	phone: string;
+}
+
+export interface TypeVacationer {
+	id: number;
+	name: string;
+	firstname: string;
+	age: number;
 }

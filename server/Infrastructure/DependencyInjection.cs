@@ -24,6 +24,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<ILinkRepository, linkRepository>();
         services.AddScoped<IReservationRepository, ReservationRepository>();
+        services.AddScoped<IVacationerRepository, VacationerRepository>();
 
 
 
