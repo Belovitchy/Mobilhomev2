@@ -6,6 +6,7 @@ import { memo, useState } from "react";
 import PopAddResa from "./PopAddResa";
 import { deleteResa } from "../../services/reservationService";
 import PopEditResa from "./PopEditResa";
+import PopDeleteResa from "./PopDeleteResa";
 
 type DayCell = {
   date: Date;
@@ -45,13 +46,15 @@ function MonthCalendar({
   const [popAddResa, setPopAddResa] = useState(false);
   const [popEditResa, setPopEditResa] = useState(false);
   const [editResa, setEditResa] = useState<TypeReservation>();
+  const [popDeleteResa, setPopDeleteResa] = useState(false);
+  const [resaToDelete, setResaToDelete] = useState<TypeReservation>();
 
   function handleAddRes() {
     setPopAddResa(true);
   }
   // console.log("monthView", monthView);
 
-  async function handleDeleteResa(
+  async function confirmDeleteResa(
     ownerId: number,
     mobilhomeId: number,
     resaId: number,
@@ -60,6 +63,12 @@ function MonthCalendar({
     setReservations((prevResas) =>
       prevResas.filter((resa) => resa.id !== resaId),
     );
+    setPopDeleteResa(false);
+  }
+
+  function handleDeleteResa(resa: TypeReservation) {
+    setPopDeleteResa(true);
+    setResaToDelete(resa);
   }
 
   function handleEditResa(resa: TypeReservation) {
@@ -69,6 +78,17 @@ function MonthCalendar({
 
   return (
     <>
+      {popDeleteResa && resaToDelete ? (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
+          <PopDeleteResa
+            resaToDelete={resaToDelete}
+            onClose={() => setPopDeleteResa(false)}
+            confirmDeleteResa={() =>
+              confirmDeleteResa(ownerId, mobilhomeId, resaToDelete.id)
+            }
+          />
+        </div>
+      ) : null}
       {popEditResa && editResa ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopEditResa
@@ -158,11 +178,7 @@ function MonthCalendar({
                     <div className="flex flex-row gap-2">
                       <EditBtn onClick={() => handleEditResa(r)} />
 
-                      <DeleteBtn
-                        onClick={() =>
-                          handleDeleteResa(ownerId, mobilhomeId, r.id)
-                        }
-                      />
+                      <DeleteBtn onClick={() => handleDeleteResa(r)} />
                     </div>
                   </div>
                 ))}

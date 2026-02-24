@@ -36,7 +36,7 @@ function PopDeleteLink({
   return (
     <PopCard title={`Supprimer ${link?.name} ?`} onClose={() => onClose()}>
       <form className="flex flex-col gap-4" onSubmit={(e) => postdeleteLink(e)}>
-        <WarningValidBtn type="submit" />
+        <WarningValidBtn type="submit" onValid={() => {}} />
         <UndoBtn onClose={() => onClose()} />
       </form>
     </PopCard>

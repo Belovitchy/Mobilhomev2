@@ -36,7 +36,7 @@ function PopDeleteOwner({
         className="flex flex-col gap-4"
         onSubmit={(e) => postDeleteOwner(e)}
       >
-        <WarningValidBtn type="submit" />
+        <WarningValidBtn type="submit" onValid={() => {}} />
         <UndoBtn onClose={() => onClose()} />
       </form>
     </PopCard>

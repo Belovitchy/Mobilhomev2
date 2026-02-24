@@ -32,7 +32,7 @@ function MobilhomeCard({
   function handleDeleteMobilhome() {
     setPopDeleteMobilhomeCard(true);
   }
-  console.log(mobilhome);
+  // console.log(mobilhome);
 
   return (
     <>

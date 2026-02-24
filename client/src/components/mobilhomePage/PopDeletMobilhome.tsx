@@ -28,7 +28,7 @@ function PopDeleteMobilhome({
         className="flex flex-col gap-4"
         onSubmit={(e) => postdeleteMobilhome(e)}
       >
-        <WarningValidBtn type="submit" />
+        <WarningValidBtn type="submit" onValid={() => {}} />
         <UndoBtn
           onClose={() => {
             onClose();
