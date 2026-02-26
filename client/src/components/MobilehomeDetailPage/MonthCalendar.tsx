@@ -8,6 +8,7 @@ import { deleteResa } from "../../services/reservationService";
 import PopEditResa from "./PopEditResa";
 import PopDeleteResa from "./PopDeleteResa";
 import { FaPersonCirclePlus } from "react-icons/fa6";
+import PopVacationers from "./PopVacationers";
 
 type DayCell = {
   date: Date;
@@ -50,6 +51,8 @@ function MonthCalendar({
   const [popDeleteResa, setPopDeleteResa] = useState(false);
   const [resaToDelete, setResaToDelete] = useState<TypeReservation>();
   const [popVacationer, setPopVacationer] = useState(false);
+  const [vacationers, setVacationers] = useState<TypeVacationer[]>([]);
+  const [resaId, setResaId] = useState<number>();
 
   function handleAddRes() {
     setPopAddResa(true);
@@ -78,13 +81,25 @@ function MonthCalendar({
     setEditResa(resa);
   }
 
-  function showVacationer(vacationers: TypeVacationer) {
+  function showVacationer(resa: TypeReservation) {
     setPopVacationer(true);
+    setVacationers(resa.vacationers);
+
+    setResaId(resa.id);
     console.log("vacationer", vacationers);
   }
 
   return (
     <>
+      {popVacationer ? (
+        <PopVacationers
+          setVacationers={setVacationers}
+          setReservations={setReservations}
+          resaId={resaId!}
+          onClose={() => setPopVacationer(false)}
+          vacationers={vacationers}
+        />
+      ) : null}
       {popDeleteResa && resaToDelete ? (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
           <PopDeleteResa
@@ -173,17 +188,17 @@ function MonthCalendar({
               <div className="flex flex-col gap-2 justify-center ">
                 {monthView.data.monthResas.map((r) => (
                   <div
-                    className="flex flex-row justify-between  border-4 rounded-full px-4 py-1 bg-(--color-cards) items-center"
+                    className="flex flex-row justify-between  border-4 rounded-full px-4 py-1 bg-(--color-cards) items-center gap-2"
                     key={r.id}
                     style={{ borderColor: r.color }}
                   >
-                    <div className="w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
+                    <div className="flex-none w-10 h-10 bg-(--color-cards) rounded-lg border-2 border-(--color-primary) flex items-center justify-center">
                       <FaPersonCirclePlus
-                        onClick={() => showVacationer(r.vacationers)}
+                        onClick={() => showVacationer(r)}
                         className="rounded-lg w-10/12 h-10/12 hover:text-(--color-cards) hover:cursor-pointer hover:bg-(--color-primary)"
                       />
                     </div>
-                    <div className="text-base m-auto">
+                    <div className="text-base m-auto text-center">
                       {r.name.toLocaleUpperCase()} du{" "}
                       {new Date(r.startDate).toLocaleDateString()}
                       <br /> au {new Date(r.endDate).toLocaleDateString()}

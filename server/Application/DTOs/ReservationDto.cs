@@ -16,6 +16,7 @@ public class ReservationDto
     public string? SibluResa { get; set; }
     public sbyte? Funpass { get; set; }
     public uint MobilhomeId { get; set; }
+    public List<VacationerDto> Vacationers { get; set; } = new();
 }
 
 

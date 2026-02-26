@@ -30,7 +30,9 @@ public class ReservationRepository : IReservationRepository
 
     public async Task<Reservation?> GetByIdAsync(uint id)
     {
-        var model = await _db.Reservations.FirstOrDefaultAsync(r => r.Id == id);
+        var model = await _db.Reservations
+        .Include(r => r.Vacationers)
+        .FirstOrDefaultAsync(r => r.Id == id);
 
         if (model == null) return null;
 

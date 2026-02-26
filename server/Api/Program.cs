@@ -25,7 +25,7 @@ using Application.UseCases.Reservations.AddReservation;
 using Application.UseCases.Reservations.DeleteReservation;
 using Application.UseCases.Reservations.UpdateReservation;
 using Application.UseCases.Vacationers.AddVacationers;
-
+using Application.UseCases.Vacationers.UpdateVacationer;
 
 
 
@@ -96,6 +96,8 @@ builder.Services.AddScoped<AddReservationHandler>();
 builder.Services.AddScoped<DeleteReservationHandler>();
 builder.Services.AddScoped<UpdateReservationHandler>();
 builder.Services.AddScoped<AddVacationersHandler>();
+builder.Services.AddScoped<UpdateVacationerHandler>();
+
 
 
 builder.Services.AddSwaggerGen(c =>

@@ -21,8 +21,22 @@ public static class ReservationDtoMapper
             Immat = reservation.Immat,
             SibluResa = reservation.SibluResa,
             Funpass = reservation.Funpass,
-            MobilhomeId = reservation.MobilhomeId
+            MobilhomeId = reservation.MobilhomeId,
+            Vacationers = reservation.Vacationers
+                .Select(ToDto)
+                .ToList()
 
+        };
+    }
+
+    private static VacationerDto ToDto(Vacationer vacationer)
+    {
+        return new VacationerDto
+        {
+            Id = vacationer.Id,
+            Name = vacationer.Name,
+            Firstname = vacationer.Firstname,
+            Age = vacationer.Age
         };
     }
 }

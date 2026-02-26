@@ -41,7 +41,8 @@ public static class ReservationMapper
             Email = model.Email,
             Phone = model.Phone,
             Immat = model.Immat,
-            SibluResa = model.SibluResa
+            SibluResa = model.SibluResa,
+            Vacationers = model.Vacationers.Select(v => VacationerMapper.ToEntity(v)).ToList()
         };
 
     }

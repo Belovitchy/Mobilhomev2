@@ -16,6 +16,7 @@ public class UpdateReservationHandler
     {
         var reservation = await _reservationRepository.GetByIdAsync(reservationId);
 
+
         if (reservation == null)
         {
             throw new Exception("Reservation not found");
@@ -43,6 +44,9 @@ public class UpdateReservationHandler
         reservation.SibluResa = command.SibluResa;
 
         await _reservationRepository.UpdateAsync(reservation);
+
+        Console.WriteLine("reservation", reservation);
+
 
         return reservation;
     }

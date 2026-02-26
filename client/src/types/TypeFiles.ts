@@ -60,7 +60,7 @@ export interface TypeReservation {
 	immat: string;
 	phone: string;
 	sibluResa: string;
-	vacationers: TypeVacationer;
+	vacationers: TypeVacationer[];
 }
 
 export interface TypeNewReservation {
@@ -78,6 +78,12 @@ export interface TypeNewReservation {
 
 export interface TypeVacationer {
 	id: number;
+	name: string;
+	firstname: string;
+	age: number;
+}
+
+export interface TypeNewVacationer {
 	name: string;
 	firstname: string;
 	age: number;

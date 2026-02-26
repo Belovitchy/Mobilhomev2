@@ -19,7 +19,7 @@ public class AddVacationersHandler
         _mobilhomeRepository = mobilhomeRepository;
     }
 
-    public async Task Handle(uint ownerId, uint mobilhomeId, uint reservationId, AddVacationersCommand command)
+    public async Task<Vacationer> Handle(uint ownerId, uint mobilhomeId, uint reservationId, AddVacationersCommand command)
     {
         var reservation = await _reservationRepository.GetByIdAsync(reservationId);
 
@@ -38,17 +38,18 @@ public class AddVacationersHandler
         if (reservation.MobilhomeId != mobilhomeId)
             throw new UnauthorizedAccessException();
 
-        foreach (var v in command.Vacationers)
+
+        var vacationer = new Vacationer
         {
-            var vacationer = new Vacationer
-            {
-                Name = v.Name,
-                Firstname = v.Firstname,
-                Age = v.Age
+            Name = command.Name,
+            Firstname = command.Firstname,
+            Age = command.Age
 
-            };
+        };
 
-            await _vacationerRepository.AddToReservationAsync(reservationId, vacationer);
-        }
+        var created = await _vacationerRepository.AddToReservationAsync(reservationId, vacationer);
+        return created;
+
+
     }
 }
